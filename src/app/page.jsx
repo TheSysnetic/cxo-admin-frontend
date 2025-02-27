@@ -1,11 +1,9 @@
-import DashBoardLayerOne from "@/components/DashBoardLayerOne";
+import DashBoardLayerTwo from "@/components/DashBoardLayerTwo";
 import MasterLayout from "@/masterLayout/MasterLayout";
 import { Breadcrumb } from "react-bootstrap";
 
 export const metadata = {
-  title: "WowDash NEXT JS - Admin Dashboard Multipurpose Bootstrap 5 Template",
-  description:
-    "Wowdash NEXT JS is a developer-friendly, ready-to-use admin template designed for building attractive, scalable, and high-performing web applications.",
+  title: "CxO global forum",
 };
 
 const Page = () => {
@@ -14,10 +12,10 @@ const Page = () => {
       {/* MasterLayout */}
       <MasterLayout>
         {/* Breadcrumb */}
-        <Breadcrumb title='AI' />
+        <Breadcrumb title='CxO' />
 
         {/* DashBoardLayerOne */}
-        <DashBoardLayerOne />
+        <DashBoardLayerTwo />
       </MasterLayout>
     </>
   );

@@ -17,3 +17,20 @@
 @import url("~/public/assets/css/lib/animate.min.css");
 @import url("~/public/assets/css/style.css");
 @import url("~/public/assets/css/extra.css");
+
+.btn-light {
+    background-color: #a3cef6; /* Light blue */
+    color: #000; /* Text color */
+  }
+  
+  .btn-primary {
+    background-color: #007bff; /* Blue */
+    color: #fff; /* Text color */
+  }
+  
+  .btn-secondary {
+    background-color: #8bbff7 !important; /* Blue for enabled state */
+    outline: none;
+    border: none !important;
+    color: #fff; /* Text color */
+  }

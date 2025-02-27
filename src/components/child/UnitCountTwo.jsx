@@ -27,8 +27,8 @@ const UnitCountTwo = () => {
                   id='new-user-chart'
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
-                  {/* Pass the color value here */}
-                  {createChart("#487fff")}
+                  {/* Pass the color value here
+                  {createChart("#487fff")} */}
                 </div>
               </div>
               <p className='text-sm mb-0'>
@@ -60,8 +60,8 @@ const UnitCountTwo = () => {
                   id='active-user-chart'
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
-                  {/* Pass the color value here */}
-                  {createChart("#45b369")}
+                  {/* Pass the color value here
+                  {createChart("#45b369")} */}
                 </div>
               </div>
               <p className='text-sm mb-0'>
@@ -93,8 +93,8 @@ const UnitCountTwo = () => {
                   id='total-sales-chart'
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
-                  {/* Pass the color value here */}
-                  {createChart("#f4941e")}
+                  {/* Pass the color value here
+                  {createChart("#f4941e")} */}
                 </div>
               </div>
               <p className='text-sm mb-0'>
@@ -126,8 +126,8 @@ const UnitCountTwo = () => {
                   id='conversion-user-chart'
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
-                  {/* Pass the color value here */}
-                  {createChart("#8252e9")}
+                  {/* Pass the color value here
+                  {createChart("#8252e9")} */}
                 </div>
               </div>
               <p className='text-sm mb-0'>
@@ -159,8 +159,8 @@ const UnitCountTwo = () => {
                   id='leads-chart'
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
-                  {/* Pass the color value here */}
-                  {createChart("#de3ace")}
+                  {/* Pass the color value here
+                  {createChart("#de3ace")} */}
                 </div>
               </div>
               <p className='text-sm mb-0'>
@@ -192,8 +192,8 @@ const UnitCountTwo = () => {
                   id='total-profit-chart'
                   className='remove-tooltip-title rounded-tooltip-value'
                 >
-                  {/* Pass the color value here */}
-                  {createChart("#00b8f2")}
+                  {/* Pass the color value here
+                  {createChart("#00b8f2")} */}
                 </div>
               </div>
               <p className='text-sm mb-0'>

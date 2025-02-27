@@ -32,11 +32,11 @@ const DashBoardLayerTwo = () => {
       {/* TopPerformanceOne */}
       <TopPerformanceOne />
 
-      {/* LatestPerformanceOne */}
+      {/* LatestPerformanceOne
       <LatestPerformanceOne />
 
       {/* LastTransactionOne */}
-      <LastTransactionOne />
+      {/* <LastTransactionOne />  */}
     </section>
   );
 };
