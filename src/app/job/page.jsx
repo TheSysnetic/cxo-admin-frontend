@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumb";
-import TableDataLayer from "@/components/TableDataLayer";
+// import TableDataLayer from "@/components/members/show-data";
 import MasterLayout from "@/masterLayout/MasterLayout";
 
 export const metadata = {
@@ -17,7 +17,7 @@ const Page = () => {
         <Breadcrumb title='Job' />
 
         {/* TableDataLayer */}
-        <TableDataLayer />
+        {/* <TableDataLayer /> */}
       </MasterLayout>
     </>
   );

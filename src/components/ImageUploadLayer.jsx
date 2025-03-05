@@ -1,5 +1,5 @@
 import BasicUpload from "./child/BasicUpload";
-import ImageUpload from "./child/ImageUpload";
+import ImageUpload from "./members/ImageUpload";
 import UploadWithImagePreview from "./child/UploadWithImagePreview";
 import UploadWithImagePreviewList from "./child/UploadWithImagePreviewList";
 

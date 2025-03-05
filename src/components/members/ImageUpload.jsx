@@ -30,11 +30,8 @@ const ImageUpload = () => {
 
     return (
         <div className="col-md-6">
-            <div className="card h-100 p-0">
-                <div className="card-header border-bottom bg-base py-16 px-24">
-                    <h6 className="text-lg fw-semibold mb-0">Image Upload</h6>
-                </div>
-                <div className="card-body p-24">
+            <div className="">
+                <div className="pt-2">
                     <div className="upload-image-wrapper d-flex align-items-center gap-3">
                         {/* Image preview section */}
                         {imagePreview ? (

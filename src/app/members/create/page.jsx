@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumb";
-import MemberData from "@/components/members/show-data";
+import AddMember from "@/components/members/create";
 import MasterLayout from "@/masterLayout/MasterLayout";
 
 export const metadata = {
@@ -14,9 +14,9 @@ const Page = () => {
       {/* MasterLayout */}
       <MasterLayout>
         {/* Breadcrumb */}
-        <Breadcrumb title='Members' page='Members' />
+        <Breadcrumb title='Create Member' page='Create member' />
 
-        <MemberData />
+        <AddMember />   
       </MasterLayout>
     </>
   );

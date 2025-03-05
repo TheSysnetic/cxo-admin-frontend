@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-const TableDataLayer = ({member, feed, job, events, news}) => {
+const MemberData = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -12,6 +12,7 @@ const TableDataLayer = ({member, feed, job, events, news}) => {
     key: "id",
     direction: "ascending",
   });
+  const [selectedMember, setSelectedMember] = useState(null);
 
   useEffect(() => {
     // Fetch data from JSON file
@@ -44,8 +45,11 @@ const TableDataLayer = ({member, feed, job, events, news}) => {
   // Filter data based on search term
   const filteredData = sortedData.filter(
     (item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.invoice.toLowerCase().includes(searchTerm.toLowerCase())
+      (item.name &&
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.email &&
+        item.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.id && item.id.includes(searchTerm))
   );
 
   // Calculate pagination
@@ -65,8 +69,8 @@ const TableDataLayer = ({member, feed, job, events, news}) => {
 
   return (
     <div className="card basic-data-table">
-      <div className='card-header'>
-        <h5 className='card-title mb-0'>Default Data Tables</h5>
+      <div className="card-header">
+        <h5 className="card-title mb-0">Default Data Tables</h5>
       </div>
       <div className="card-header">
         <div className="row mt-20">
@@ -88,29 +92,27 @@ const TableDataLayer = ({member, feed, job, events, news}) => {
           </div>
           <div className="col-sm-4">
             <div className="row">
-              {member ? (
-                <div className="col-sm-6">
-                  <button
-                    type="button"
-                    className="btn btn-primary-600 radius-8 px-20 py-11 d-flex align-items-center gap-2 float-end"
-                  >
-                    Add Member{" "}
-                    <Icon
-                      icon="material-symbols:add"
-                      className="text-xl"
-                    />
-                  </button>
-                </div>
-              ): <div className="col-sm-6"></div>}
-              
               <div className="col-sm-6">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="form-control"
-                />
+                <Link
+                href={'/members/create'}
+                  type="button"
+                  className="btn btn-primary-600 radius-8 px-20 py-11 d-flex align-items-center gap-2 float-end"
+                >
+                  Add Member{" "}
+                  <Icon icon="mingcute:add-fill" className="text-xl" />
+                </Link>
+              </div>
+
+              <div className="col-sm-6">
+                <div className="input-group">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="form-control"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -120,47 +122,10 @@ const TableDataLayer = ({member, feed, job, events, news}) => {
         <table className="table bordered-table mb-0" id="dataTable">
           <thead>
             <tr>
-              <th scope="col">
-                <div className="form-check style-check d-flex align-items-center">
-                  <input className="form-check-input" type="checkbox" />
-                  <label className="form-check-label">S.L</label>
-                </div>
-              </th>
-              <th
-                scope="col"
-                onClick={() => requestSort("invoice")}
-                style={{ cursor: "pointer" }}
-              >
-                Invoice
-                {sortConfig.key === "invoice" && (
-                  <Icon
-                    icon={
-                      sortConfig.direction === "ascending"
-                        ? "mdi:arrow-up"
-                        : "mdi:arrow-down"
-                    }
-                  />
-                )}
-              </th>
+              <th scope="col">ID</th>
               <th scope="col">Name</th>
-              <th scope="col">Issued Date</th>
-              <th
-                scope="col"
-                onClick={() => requestSort("amount")}
-                style={{ cursor: "pointer" }}
-              >
-                Amount
-                {sortConfig.key === "amount" && (
-                  <Icon
-                    icon={
-                      sortConfig.direction === "ascending"
-                        ? "mdi:arrow-up"
-                        : "mdi:arrow-down"
-                    }
-                  />
-                )}
-              </th>
-              <th scope="col">Status</th>
+              <th scope="col">Designation</th>
+              <th scope="col">Email</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -175,44 +140,23 @@ const TableDataLayer = ({member, feed, job, events, news}) => {
                 </td>
                 <td>
                   <Link href="#" className="text-primary-600">
-                    {item.invoice}
+                    {item.name}
                   </Link>
                 </td>
+                <td>{item.title}</td>
+                <td>{item.email}</td>
                 <td>
-                  <div className="d-flex align-items-center">
-                    <img
-                      src={item.image} // Assuming image URL is part of the item
-                      alt=""
-                      className="flex-shrink-0 me-12 radius-8"
-                    />
-                    <h6 className="text-md mb-0 fw-medium flex-grow-1">
-                      {item.name}
-                    </h6>
-                  </div>
-                </td>
-                <td>{item.issuedDate}</td>
-                <td>{item.amount}</td>
-                <td>
-                  <span
-                    className={`bg-${
-                      item.status === "Paid" ? "success" : "warning"
-                    }-focus text-${
-                      item.status === "Paid" ? "success" : "warning"
-                    }-main px-24 py-4 rounded-pill fw-medium text-sm`}
-                  >
-                    {item.status}
-                  </span>
-                </td>
-                <td>
-                  {member ?  <Link
-                    href="#"
-                    className="w-32-px h-32-px me-8 bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center"
-                  >
-                    <Icon icon="iconamoon:eye-light" />
-                  </Link>: ""}
-                 
                   <Link
                     href="#"
+                    className="w-32-px h-32-px me-8 bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center"
+                    data-bs-toggle='modal'
+                    data-bs-target='#viewAllMember'
+                    onClick={() => setSelectedMember(item)}
+                  >
+                    <Icon icon="iconamoon:eye-light" />
+                  </Link>
+                  <Link
+                    href={`/members/edit?id=${item.id}&name=${encodeURIComponent(item.name)}&designation=${encodeURIComponent(item.title)}&email=${encodeURIComponent(item.email)}`}
                     className="w-32-px h-32-px me-8 bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center"
                   >
                     <Icon icon="lucide:edit" />
@@ -297,8 +241,104 @@ const TableDataLayer = ({member, feed, job, events, news}) => {
           </span>
         </div>
       </div>
+
+      {/* Modal */}
+      <div
+        className='modal fade'
+        id='viewAllMember'
+        tabIndex={-1}
+        aria-labelledby='exampleModalLabel'
+        aria-hidden='true'
+      >
+        <div className='modal-dialog modal-lg modal-dialog-centered'>
+          <div className='modal-content radius-16 bg-base'>
+            <div className='modal-header py-16 px-24 border border-top-0 border-start-0 border-end-0'>
+              <h1 className='modal-title fs-5'>
+                Member Details
+              </h1>
+              <button
+                type='button'
+                className='btn-close'
+                data-bs-dismiss='modal'
+                aria-label='Close'
+              />
+            </div>
+            <div className='modal-body p-24'>
+              {selectedMember && (
+                <form action='#'>
+                  <div className='row'>
+                    <div className='col-6 mb-20'>
+                      <label
+                        htmlFor='name'
+                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                      >
+                        Name
+                      </label>
+                      <input
+                        type='text'
+                        className='form-control radius-8'
+                        id='name'
+                        value={selectedMember.name}
+                        readOnly
+                      />
+                    </div>
+                    <div className='col-6 mb-20'>
+                      <label
+                        htmlFor='designation'
+                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                      >
+                        Designation
+                      </label>
+                      <input
+                        type='text'
+                        className='form-control radius-8'
+                        id='name'
+                        value={selectedMember.title}
+                        readOnly
+                      />
+                    </div>
+                    <div className='col-6 mb-20'>
+                      <label
+                        htmlFor='email'
+                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                      >
+                        Email
+                      </label>
+                      <input
+                        type='text'
+                        className='form-control radius-8'
+                        id='name'
+                        value={selectedMember.email}
+                        readOnly
+                      />
+                    </div>
+                    <div className='col-6 mb-20'>
+                      <label
+                        htmlFor='image'
+                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                      >
+                        Image
+                      </label>
+                      <br/>
+                      <img src="/assets/images/avatar/avatar.png" alt=""  className="w-80-px h-80-px rounded-circle object-fit-cover"/>
+                      
+                    </div>
+                    <div className='d-flex align-items-center justify-content-center gap-3 mt-24'>
+                      <button
+                        className='btn btn-primary border border-primary-600 text-md px-50 py-12 radius-8'
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default TableDataLayer;
+export default MemberData;

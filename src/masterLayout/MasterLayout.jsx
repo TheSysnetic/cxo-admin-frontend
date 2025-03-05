@@ -40,17 +40,17 @@ const MasterLayout = ({ children }) => {
         <div>
           <Link href='/' className='sidebar-logo justify-content-center'>
             <img
-              src='assets/images/logo.png'
+              src='/assets/images/logo.png'
               alt='site logo'
               className='light-logo'
             />
             <img
-              src='assets/images/logo-light.png'
+              src='/assets/images/logo-light.png'
               alt='site logo'
               className='dark-logo'
             />
             <img
-              src='assets/images/logo-icon.png'
+              src='/assets/images/logo-icon.png'
               alt='site logo'
               className='logo-icon'
             />
@@ -65,7 +65,7 @@ const MasterLayout = ({ children }) => {
               </Link>
             </li>
             <li>
-              <Link href='/members' className={pathname === "/members" ? "active-page" : ""}>
+              <Link href='/members' className={pathname === "/members" || pathname === "/members/create" || pathname === "/members/edit" ? "active-page" : ""}>
                 <Icon icon='lucide:users' className='menu-icon' />
                 <span>Members</span>
               </Link>
@@ -152,7 +152,7 @@ const MasterLayout = ({ children }) => {
                     data-bs-toggle='dropdown'
                   >
                     <img
-                      src='assets/images/user.png'
+                      src='/assets/images/avatar/avatar.png'
                       alt='image_user'
                       className='w-40-px h-40-px object-fit-cover rounded-circle'
                     />
@@ -216,7 +216,7 @@ const MasterLayout = ({ children }) => {
             </div>
             <div className='col-auto'>
               <p className='mb-0'>
-                Made by Sysnetic
+                Develop by Sysnetic
               </p>
             </div>
           </div>
