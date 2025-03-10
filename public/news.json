@@ -1,0 +1,182 @@
+[
+    {
+      "id": 1,
+      "title": "Breaking News",
+      "description": "This is a breaking news story.",
+      "thumbnail": "https://example.com/image1.jpg",
+      "active": true,
+      "created_at": "2025-03-10T18:54:10.000000Z",
+      "updated_at": "2025-03-10T18:54:10.000000Z"
+    },
+    {
+      "id": 2,
+      "title": "Local Sports Update",
+      "description": "The local team wins the championship.",
+      "thumbnail": "https://example.com/image2.jpg",
+      "active": false,
+      "created_at": "2025-03-11T09:00:00.000000Z",
+      "updated_at": "2025-03-11T09:00:00.000000Z"
+    },
+    {
+      "id": 3,
+      "title": "Weather Alert",
+      "description": "Severe weather warning issued for the area.",
+      "thumbnail": "https://example.com/image3.jpg",
+      "active": true,
+      "created_at": "2025-03-12T10:30:00.000000Z",
+      "updated_at": "2025-03-12T10:30:00.000000Z"
+    },
+    {
+      "id": 4,
+      "title": "Tech Innovations",
+      "description": "New technology trends to watch in 2025.",
+      "thumbnail": "https://example.com/image4.jpg",
+      "active": false,
+      "created_at": "2025-03-13T11:15:00.000000Z",
+      "updated_at": "2025-03-13T11:15:00.000000Z"
+    },
+    {
+      "id": 5,
+      "title": "Health Advisory",
+      "description": "Health officials recommend vaccinations.",
+      "thumbnail": "https://example.com/image5.jpg",
+      "active": true,
+      "created_at": "2025-03-14T14:00:00.000000Z",
+      "updated_at": "2025-03-14T14:00:00.000000Z"
+    },
+    {
+      "id": 6,
+      "title": "Economic Update",
+      "description": "The economy shows signs of recovery.",
+      "thumbnail": "https://example.com/image6.jpg",
+      "active": true,
+      "created_at": "2025-03-15T15:45:00.000000Z",
+      "updated_at": "2025-03-15T15:45:00.000000Z"
+    },
+    {
+      "id": 7,
+      "title": "Community Event",
+      "description": "Join us for the annual community fair.",
+      "thumbnail": "https://example.com/image7.jpg",
+      "active": true,
+      "created_at": "2025-03-16T16:30:00.000000Z",
+      "updated_at": "2025-03-16T16:30:00.000000Z"
+    },
+    {
+      "id": 8,
+      "title": "Education Reform",
+      "description": "New policies aim to improve education.",
+      "thumbnail": "https://example.com/image8.jpg",
+      "active": true,
+      "created_at": "2025-03-17T17:00:00.000000Z",
+      "updated_at": "2025-03-17T17:00:00.000000Z"
+    },
+    {
+      "id": 9,
+      "title": "Environmental Awareness",
+      "description": "Local initiatives to combat climate change.",
+      "thumbnail": "https://example.com/image9.jpg",
+      "active": true,
+      "created_at": "2025-03-18T18:00:00.000000Z",
+      "updated_at": "2025-03-18T18:00:00.000000Z"
+    },
+    {
+      "id": 10,
+      "title": "Cultural Festival",
+      "description": "Celebrating diversity through art and music.",
+      "thumbnail": "https://example.com/image10.jpg",
+      "active": true,
+      "created_at": "2025-03-19T19:00:00.000000Z",
+      "updated_at": "2025-03-19T19:00:00.000000Z"
+    },
+    {
+      "id": 11,
+      "title": "New Restaurant Opening",
+      "description": "A new dining experience in town.",
+      "thumbnail": "https://example.com/image11.jpg",
+      "active": false,
+      "created_at": "2025-03-20T20:00:00.000000Z",
+      "updated_at": "2025-03-20T20:00:00.000000Z"
+    },
+    {
+      "id": 12,
+      "title": "Local Hero",
+      "description": "A story of bravery and community service.",
+      "thumbnail": "https://example.com/image12.jpg",
+      "active": true,
+      "created_at": "2025-03-21T21:00:00.000000Z",
+      "updated_at": "2025-03-21T21:00:00.000000Z"
+    },
+    {
+      "id": 13,
+      "title": "Art Exhibition",
+      "description": "Showcasing local artists and their work.",
+      "thumbnail": "https://example.com/image13.jpg",
+      "active": true,
+      "created_at": "2025-03-22T22:00:00.000000Z",
+      "updated_at": "2025-03-22T22:00:00.000000Z"
+    },
+    {
+      "id": 14,
+      "title": "Book Launch",
+      "description": "An author presents their latest novel.",
+      "thumbnail": "https://example.com/image14.jpg",
+      "active": true,
+      "created_at": "2025-03-23T23:00:00.000000Z",
+      "updated_at": "2025-03-23T23:00:00.000000Z"
+    },
+    {
+      "id": 15,
+      "title": "Charity Event",
+      "description": "Raising funds for local charities.",
+      "thumbnail": "https://example.com/image15.jpg",
+      "active": true,
+      "created_at": "2025-03-24T00:00:00.000000Z",
+      "updated_at": "2025-03-24T00:00:00.000000Z"
+    },
+    {
+      "id": 16,
+      "title": "Tech Conference",
+      "description": "Discussing the future of technology.",
+      "thumbnail": "https://example.com/image16.jpg",
+      "active": true,
+      "created_at": "2025-03-25T01:00:00.000000Z",
+      "updated_at": "2025-03-25T01:00:00.000000Z"
+    },
+    {
+      "id": 17,
+      "title": "Film Screening",
+      "description": "A special screening of an award-winning film.",
+      "thumbnail": "https://example.com/image17.jpg",
+      "active": true,
+      "created_at": "2025-03-26T02:00:00.000000Z",
+      "updated_at": "2025-03-26T02:00:00.000000Z"
+    },
+    {
+      "id": 18,
+      "title": "Music Concert",
+      "description": "Live music from local bands.",
+      "thumbnail": "https://example.com/image18.jpg",
+      "active": true,
+      "created_at": "2025-03-27T03:00:00.000000Z",
+      "updated_at": "2025-03-27T03:00:00.000000Z"
+    },
+    {
+      "id": 19,
+      "title": "Science Fair",
+      "description": "Showcasing innovative student projects.",
+      "thumbnail": "https://example.com/image19.jpg",
+      "active": true,
+      "created_at": "2025-03-28T04:00:00.000000Z",
+      "updated_at": "2025-03-28T04:00:00.000000Z"
+    },
+    {
+      "id": 20,
+      "title": "Community Cleanup",
+      "description": "Join us to clean up the local park.",
+      "thumbnail": "https://example.com/image20.jpg",
+      "active": true,
+      "created_at": "2025-03-29T05:00:00.000000Z",
+      "updated_at": "2025-03-29T05:00:00.000000Z"
+    }
+]

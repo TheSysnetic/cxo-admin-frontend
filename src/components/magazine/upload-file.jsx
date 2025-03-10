@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 
-const UploadWithImagePreviewList = () => {
+const UploadFile = () => {
   const [fileNames, setFileNames] = useState([]);
 
   const handleFileChange = (event) => {
@@ -16,12 +16,7 @@ const UploadWithImagePreviewList = () => {
   };
   return (
     <div className='col-md-6'>
-      <div className='card h-100 p-0'>
-        <div className='card-header border-bottom bg-base py-16 px-24'>
-          <h6 className='text-lg fw-semibold mb-0'>
-            Upload With Image Preview
-          </h6>
-        </div>
+      <div className=''>
         <div className='card-body p-24'>
           <label
             htmlFor='file-upload-name'
@@ -66,4 +61,4 @@ const UploadWithImagePreviewList = () => {
   );
 };
 
-export default UploadWithImagePreviewList;
+export default UploadFile;

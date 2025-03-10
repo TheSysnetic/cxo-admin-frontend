@@ -24,13 +24,13 @@ const DashBoardLayerTwo = () => {
       <CampaignStaticOne />
 
       {/* ClientPaymentOne  */}
-      <ClientPaymentOne />
+      {/* <ClientPaymentOne /> */}
 
       {/* CountryStatusOne */}
-      <CountryStatusOne />
+      {/* <CountryStatusOne /> */}
 
       {/* TopPerformanceOne */}
-      <TopPerformanceOne />
+      {/* <TopPerformanceOne /> */}
 
       {/* LatestPerformanceOne
       <LatestPerformanceOne />

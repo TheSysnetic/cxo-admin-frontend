@@ -1,0 +1,362 @@
+[
+    {
+      "id": 1,
+      "user_id": 1,
+      "title": "Tech Conference",
+      "description": "A conference about the latest in tech.",
+      "thumbnail": "https://example.com/image1.jpg",
+      "date_from": "2025-03-10",
+      "date_to": "2025-03-12",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2025-03-10T18:42:05.000000Z",
+      "updated_at": "2025-03-10T18:42:05.000000Z",
+      "user": {
+        "id": 1,
+        "name": "Test User",
+        "email": "test@example.com"
+      }
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "title": "Health Summit",
+      "description": "A summit focusing on health and wellness.",
+      "thumbnail": "https://example.com/image2.jpg",
+      "date_from": "2025-04-15",
+      "date_to": "2025-04-17",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2025-04-15T10:00:00.000000Z",
+      "updated_at": "2025-04-15T10:00:00.000000Z",
+      "user": {
+        "id": 2,
+        "name": "Jane Doe",
+        "email": "jane@example.com"
+      }
+    },
+    {
+      "id": 3,
+      "user_id": 3,
+      "title": "Art Expo",
+      "description": "An exhibition showcasing contemporary art.",
+      "thumbnail": "https://example.com/image3.jpg",
+      "date_from": "2025-05-20",
+      "date_to": "2025-05-22",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2025-05-20T09:30:00.000000Z",
+      "updated_at": "2025-05-20T09:30:00.000000Z",
+      "user": {
+        "id": 3,
+        "name": "John Smith",
+        "email": "john@example.com"
+      }
+    },
+    {
+      "id": 4,
+      "user_id": 4,
+      "title": "Business Forum",
+      "description": "A forum for business leaders to discuss trends.",
+      "thumbnail": "https://example.com/image4.jpg",
+      "date_from": "2025-06-05",
+      "date_to": "2025-06-07",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2025-06-05T14:00:00.000000Z",
+      "updated_at": "2025-06-05T14:00:00.000000Z",
+      "user": {
+        "id": 4,
+        "name": "Alice Johnson",
+        "email": "alice@example.com"
+      }
+    },
+    {
+      "id": 5,
+      "user_id": 5,
+      "title": "Music Festival",
+      "description": "A festival celebrating music from around the world.",
+      "thumbnail": "https://example.com/image5.jpg",
+      "date_from": "2025-07-10",
+      "date_to": "2025-07-12",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2025-07-10T12:00:00.000000Z",
+      "updated_at": "2025-07-10T12:00:00.000000Z",
+      "user": {
+        "id": 5,
+        "name": "Bob Brown",
+        "email": "bob@example.com"
+      }
+    },
+    {
+      "id": 6,
+      "user_id": 6,
+      "title": "Tech Workshop",
+      "description": "Hands-on workshop for tech enthusiasts.",
+      "thumbnail": "https://example.com/image6.jpg",
+      "date_from": "2025-08-15",
+      "date_to": "2025-08-16",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2025-08-15T08:00:00.000000Z",
+      "updated_at": "2025-08-15T08:00:00.000000Z",
+      "user": {
+        "id": 6,
+        "name": "Charlie Green",
+        "email": "charlie@example.com"
+      }
+    },
+    {
+      "id": 7,
+      "user_id": 7,
+      "title": "Culinary Festival",
+      "description": "A festival celebrating food and cooking.",
+      "thumbnail": "https://example.com/image7.jpg",
+      "date_from": "2025-09-20",
+      "date_to": "2025-09-22",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2025-09-20T11:00:00.000000Z",
+      "updated_at": "2025-09-20T11:00:00.000000Z",
+      "user": {
+        "id": 7,
+        "name": "Diana Prince",
+        "email": "diana@example.com"
+      }
+    },
+    {
+      "id": 8,
+      "user_id": 8,
+      "title": "Film Festival",
+      "description": "A festival showcasing independent films.",
+      "thumbnail": "https://example.com/image8.jpg",
+      "date_from": "2025-10-05",
+      "date_to": "2025-10-07",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2025-10-05T15:00:00.000000Z",
+      "updated_at": "2025-10-05T15:00:00.000000Z",
+      "user": {
+        "id": 8,
+        "name": "Ethan Hunt",
+        "email": "ethan@example.com"
+      }
+    },
+    {
+      "id": 9,
+      "user_id": 9,
+      "title": "Fashion Show",
+      "description": "A show featuring the latest fashion trends.",
+      "thumbnail": "https://example.com/image9.jpg",
+      "date_from": "2025-11-10",
+      "date_to": "2025-11-12",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2025-11-10T09:00:00.000000Z",
+      "updated_at": "2025-11-10T09:00:00.000000Z",
+      "user": {
+        "id": 9,
+        "name": "Fiona Apple",
+        "email": "fiona@example.com"
+      }
+    },
+    {
+      "id": 10,
+      "user_id": 10,
+      "title": "Gaming Convention",
+      "description": "A convention for gamers and developers.",
+      "thumbnail": "https://example.com/image10.jpg",
+      "date_from": "2025-12-01",
+      "date_to": "2025-12-03",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2025-12-01T10:00:00.000000Z",
+      "updated_at": "2025-12-01T10:00:00.000000Z",
+      "user": {
+        "id": 10,
+        "name": "George Lucas",
+        "email": "george@example.com"
+      }
+    },
+    {
+      "id": 11,
+      "user_id": 11,
+      "title": "Music Festival",
+      "description": "An annual festival celebrating music from various genres.",
+      "thumbnail": "https://example.com/image11.jpg",
+      "date_from": "2026-01-15",
+      "date_to": "2026-01-17",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2026-01-15T12:00:00.000000Z",
+      "updated_at": "2026-01-15T12:00:00.000000Z",
+      "user": {
+        "id": 11,
+        "name": "Alice Smith",
+        "email": "alice@example.com"
+      }
+    },
+    {
+      "id": 12,
+      "user_id": 12,
+      "title": "Tech Expo",
+      "description": "An exhibition showcasing the latest technology innovations.",
+      "thumbnail": "https://example.com/image12.jpg",
+      "date_from": "2026-02-20",
+      "date_to": "2026-02-22",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2026-02-20T09:00:00.000000Z",
+      "updated_at": "2026-02-20T09:00:00.000000Z",
+      "user": {
+        "id": 12,
+        "name": "Bob Johnson",
+        "email": "bob@example.com"
+      }
+    },
+    {
+      "id": 13,
+      "user_id": 13,
+      "title": "Food Festival",
+      "description": "A festival celebrating food from around the world.",
+      "thumbnail": "https://example.com/image13.jpg",
+      "date_from": "2026-03-10",
+      "date_to": "2026-03-12",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2026-03-10T10:00:00.000000Z",
+      "updated_at": "2026-03-10T10:00:00.000000Z",
+      "user": {
+        "id": 13,
+        "name": "Charlie Brown",
+        "email": "charlie@example.com"
+      }
+    },
+    {
+      "id": 14,
+      "user_id": 14,
+      "title": "Literature Festival",
+      "description": "A festival celebrating literature and authors.",
+      "thumbnail": "https://example.com/image14.jpg",
+      "date_from": "2026-04-05",
+      "date_to": "2026-04-07",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2026-04-05T11:00:00.000000Z",
+      "updated_at": "2026-04-05T11:00:00.000000Z",
+      "user": {
+        "id": 14,
+        "name": "Diana Prince",
+        "email": "diana@example.com"
+      }
+    },
+    {
+      "id": 15,
+      "user_id": 15,
+      "title": "Sports Day",
+      "description": "A day filled with various sports activities and competitions.",
+      "thumbnail": "https://example.com/image15.jpg",
+      "date_from": "2026-05-20",
+      "date_to": "2026-05-20",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2026-05-20T08:00:00.000000Z",
+      "updated_at": "2026-05-20T08:00:00.000000Z",
+      "user": {
+        "id": 15,
+        "name": "Eve Adams",
+        "email": "eve@example.com"
+      }
+    },
+    {
+      "id": 16,
+      "user_id": 16,
+      "title": "Film Festival",
+      "description": "A festival showcasing independent films.",
+      "thumbnail": "https://example.com/image16.jpg",
+      "date_from": "2026-06-15",
+      "date_to": "2026-06-17",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2026-06-15T15:00:00.000000Z",
+      "updated_at": "2026-06-15T15:00:00.000000Z",
+      "user": {
+        "id": 16,
+        "name": "Frank Castle",
+        "email": "frank@example.com"
+      }
+    },
+    {
+      "id": 17,
+      "user_id": 17,
+      "title": "Art Festival",
+      "description": "A festival celebrating various forms of art.",
+      "thumbnail": "https://example.com/image17.jpg",
+      "date_from": "2026-07-10",
+      "date_to": "2026-07-12",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2026-07-10T09:00:00.000000Z",
+      "updated_at": "2026-07-10T09:00:00.000000Z",
+      "user": {
+        "id": 17,
+        "name": "Grace Lee",
+        "email": "grace@example.com"
+      }
+    },
+    {
+      "id": 18,
+      "user_id": 18,
+      "title": "Cultural Festival",
+      "description": "A festival celebrating diverse cultures.",
+      "thumbnail": "https://example.com/image18.jpg",
+      "date_from": "2026-08-05",
+      "date_to": "2026-08-07",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2026-08-05T10:00:00.000000Z",
+      "updated_at": "2026-08-05T10:00:00.000000Z",
+      "user": {
+        "id": 18,
+        "name": "Hannah Baker",
+        "email": "hannah@example.com"
+      }
+    },
+    {
+      "id": 19,
+      "user_id": 19,
+      "title": "Science Fair",
+      "description": "A fair showcasing scientific projects and innovations.",
+      "thumbnail": "https://example.com/image19.jpg",
+      "date_from": "2026-09-15",
+      "date_to": "2026-09-17",
+      "link": "https://example.com",
+      "approved": true,
+      "created_at": "2026-09-15T12:00:00.000000Z",
+      "updated_at": "2026-09-15T12:00:00.000000Z",
+      "user": {
+        "id": 19,
+        "name": "Ian Malcolm",
+        "email": "ian@example.com"
+      }
+    },
+    {
+      "id": 20,
+      "user_id": 20,
+      "title": "Charity Run",
+      "description": "A charity run to raise funds for local causes.",
+      "thumbnail": "https://example.com/image20.jpg",
+      "date_from": "2026-10-10",
+      "date_to": "2026-10-10",
+      "link": "https://example.com",
+      "approved": false,
+      "created_at": "2026-10-10T09:00:00.000000Z",
+      "updated_at": "2026-10-10T09:00:00.000000Z",
+      "user": {
+        "id": 20,
+        "name": "Jack Sparrow",
+        "email": "jack@example.com"
+      }
+    }
+]

@@ -1,6 +1,6 @@
+import DashBoardLayerTwo from "@/components/DashBoardLayerTwo";
 import MasterLayout from "@/masterLayout/MasterLayout";
 import { Breadcrumb } from "react-bootstrap";
-import SignInLayer from "@/components/SignInLayer";
 
 export const metadata = {
   title: "CxO global forum",
@@ -10,12 +10,13 @@ const Page = () => {
   return (
     <>
       {/* MasterLayout */}
-      {/* <MasterLayout> */}
+      <MasterLayout>
         {/* Breadcrumb */}
-        {/* <Breadcrumb title='CxO' /> */}
-          <SignInLayer />
-       
-      {/* </MasterLayout> */}
+        <Breadcrumb title='CxO' />
+
+        {/* DashBoardLayerOne */}
+        <DashBoardLayerTwo />
+      </MasterLayout>
     </>
   );
 };

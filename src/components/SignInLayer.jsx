@@ -6,7 +6,7 @@ const SignInLayer = () => {
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
         <div className='d-flex align-items-center flex-column h-100 justify-content-center'>
-          <img src='assets/images/auth/auth-img.png' alt='' />
+          <img src='assets/images/auth/sign-in.png' alt='' />
         </div>
       </div>
       <div className='auth-right py-32 px-24 d-flex flex-column justify-content-center'>
@@ -66,17 +66,18 @@ const SignInLayer = () => {
                 </Link>
               </div>
             </div>
-            <button
+            <Link
+              href={'/dashboard'}
               type='submit'
               className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
             >
               {" "}
               Sign In
-            </button>
-            <div className='mt-32 center-border-horizontal text-center'>
+            </Link>
+            {/* <div className='mt-32 center-border-horizontal text-center'>
               <span className='bg-base z-1 px-4'>Or sign in with</span>
-            </div>
-            <div className='mt-32 d-flex align-items-center gap-3'>
+            </div> */}
+            {/* <div className='mt-32 d-flex align-items-center gap-3'>
               <button
                 type='button'
                 className='fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50'
@@ -97,7 +98,7 @@ const SignInLayer = () => {
                 />
                 Google
               </button>
-            </div>
+            </div> */}
             <div className='mt-32 text-center text-sm'>
               <p className='mb-0'>
                 Don’t have an account?{" "}

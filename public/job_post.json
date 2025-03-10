@@ -1,0 +1,382 @@
+[
+    {
+      "id": 1,
+      "user_id": 1,
+      "company": "TechCorp",
+      "designation": "Software Engineer",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2025-03-10",
+      "description": "Job description goes here",
+      "thumbnail": "https://example.com/image.jpg",
+      "approved": false,
+      "created_at": "2025-03-10T12:07:14.000000Z",
+      "updated_at": "2025-03-10T12:07:14.000000Z",
+      "user": {
+        "id": 1,
+        "name": "Test User",
+        "email": "test@example.com"
+      }
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "company": "WebSolutions",
+      "designation": "Frontend Developer",
+      "type": "Part-Time",
+      "link": "https://example.com",
+      "due_date": "2025-04-15",
+      "description": "Looking for a creative frontend developer.",
+      "thumbnail": "https://example.com/image2.jpg",
+      "approved": true,
+      "created_at": "2025-04-01T10:00:00.000000Z",
+      "updated_at": "2025-04-01T10:00:00.000000Z",
+      "user": {
+        "id": 2,
+        "name": "Alice Smith",
+        "email": "alice@example.com"
+      }
+    },
+    {
+      "id": 3,
+      "user_id": 3,
+      "company": "DataInc",
+      "designation": "Data Analyst",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2025-05-20",
+      "description": "Seeking a data analyst with experience in SQL.",
+      "thumbnail": "https://example.com/image3.jpg",
+      "approved": false,
+      "created_at": "2025-05-01T09:30:00.000000Z",
+      "updated_at": "2025-05-01T09:30:00.000000Z",
+      "user": {
+        "id": 3,
+        "name": "Bob Johnson",
+        "email": "bob@example.com"
+      }
+    },
+    {
+      "id": 4,
+      "user_id": 4,
+      "company": "DevHouse",
+      "designation": "Backend Developer",
+      "type": "Contract",
+      "link": "https://example.com",
+      "due_date": "2025-06-30",
+      "description": "Contract position for a backend developer.",
+      "thumbnail": "https://example.com/image4.jpg",
+      "approved": false,
+      "created_at": "2025-06-01T11:15:00.000000Z",
+      "updated_at": "2025-06-01T11:15:00.000000Z",
+      "user": {
+        "id": 4,
+        "name": "Charlie Brown",
+        "email": "charlie@example.com"
+      }
+    },
+    {
+      "id": 5,
+      "user_id": 5,
+      "company": "CloudServices",
+      "designation": "Cloud Engineer",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2025-07-25",
+      "description": "Join our team as a cloud engineer.",
+      "thumbnail": "https://example.com/image5.jpg",
+      "approved": true,
+      "created_at": "2025-07-01T08:45:00.000000Z",
+      "updated_at": "2025-07-01T08:45:00.000000Z",
+      "user": {
+        "id": 5,
+        "name": "Diana Prince",
+        "email": "diana@example.com"
+      }
+    },
+    {
+      "id": 6,
+      "user_id": 6,
+      "company": "AI Innovations",
+      "designation": "Machine Learning Engineer",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2025-08-15",
+      "description": "Looking for a machine learning engineer.",
+      "thumbnail": "https://example.com/image6.jpg",
+      "approved": true,
+      "created_at": "2025-08-01T10:30:00.000000Z",
+      "updated_at": "2025-08-01T10:30:00.000000Z",
+      "user": {
+        "id": 6,
+        "name": "Eve Adams",
+        "email": "eve@example.com"
+      }
+    },
+    {
+      "id": 7,
+      "user_id": 7,
+      "company": "CyberSecurity",
+      "designation": "Security Analyst",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2025-09-10",
+      "description": "Seeking a security analyst for our team.",
+      "thumbnail": "https://example.com/image7.jpg",
+      "approved": false,
+      "created_at": "2025-09-01T09:00:00.000000Z",
+      "updated_at": "2025-09-01T09:00:00.000000Z",
+      "user": {
+        "id": 7,
+        "name": "Frank Castle",
+        "email": "frank@example.com"
+      }
+    },
+    {
+      "id": 8,
+      "user_id": 8,
+      "company": "FinTech Solutions",
+      "designation": "Financial Analyst",
+      "type": "Part-Time",
+      "link": "https://example.com",
+      "due_date": "2025-10-05",
+      "description": "Part-time financial analyst position available.",
+      "thumbnail": "https://example.com/image8.jpg",
+      "approved": true,
+      "created_at": "2025-10-01T11:00:00.000000Z",
+      "updated_at": "2025-10-01T11:00:00.000000Z",
+      "user": {
+        "id": 8,
+        "name": "Grace Lee",
+        "email": "grace@example.com"
+      }
+    },
+    {
+      "id": 9,
+      "user_id": 9,
+      "company": "HealthTech",
+      "designation": "Product Manager",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2025-11-20",
+      "description": "Join us as a product manager.",
+      "thumbnail": "https://example.com/image9.jpg",
+      "approved": true,
+      "created_at": "2025-11-01T10:00:00.000000Z",
+      "updated_at": "2025-11-01T10:00:00.000000Z",
+      "user": {
+        "id": 9,
+        "name": "Hank Pym",
+        "email": "hank@example.com"
+      }
+    },
+    {
+      "id": 10,
+      "user_id": 10,
+      "company": "RetailCorp",
+      "designation": "Sales Associate",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2025-12-15",
+      "description": "Sales associate position available.",
+      "thumbnail": "https://example.com/image10.jpg",
+      "approved": false,
+      "created_at": "2025-12-01T09:30:00.000000Z",
+      "updated_at": "2025-12-01T09:30:00.000000Z",
+      "user": {
+        "id": 10,
+        "name": "Ivy Carter",
+        "email": "ivy@example.com"
+      }
+    },
+    {
+      "id": 11,
+      "user_id": 11,
+      "company": "Logistics Inc.",
+      "designation": "Logistics Coordinator",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2026-01-10",
+      "description": "Logistics coordinator position open.",
+      "thumbnail": "https://example.com/image11.jpg",
+      "approved": false,
+      "created_at": "2026-01-01T10:00:00.000000Z",
+      "updated_at": "2026-01-01T10:00:00.000000Z",
+      "user": {
+        "id": 11,
+        "name": "Jack Sparrow",
+        "email": "jack@example.com"
+      }
+    },
+    {
+      "id": 12,
+      "user_id": 12,
+      "company": "Travel Agency",
+      "designation": "Travel Consultant",
+      "type": "Part-Time",
+      "link": "https://example.com",
+      "due_date": "2026-02-05",
+      "description": "Part-time travel consultant needed.",
+      "thumbnail": "https://example.com/image12.jpg",
+      "approved": false,
+      "created_at": "2026-02-01T11:00:00.000000Z",
+      "updated_at": "2026-02-01T11:00:00.000000Z",
+      "user": {
+        "id": 12,
+        "name": "Lara Croft",
+        "email": "lara@example.com"
+      }
+    },
+    {
+      "id": 13,
+      "user_id": 13,
+      "company": "Construction Co.",
+      "designation": "Site Manager",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2026-03-15",
+      "description": "Site manager position available.",
+      "thumbnail": "https://example.com/image13.jpg",
+      "approved": false,
+      "created_at": "2026-03-01T09:00:00.000000Z",
+      "updated_at": "2026-03-01T09:00:00.000000Z",
+      "user": {
+        "id": 13,
+        "name": "Tony Stark",
+        "email": "tony@example.com"
+      }
+    },
+    {
+      "id": 14,
+      "user_id": 14,
+      "company": "Marketing Agency",
+      "designation": "Marketing Specialist",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2026-04-20",
+      "description": "Looking for a marketing specialist.",
+      "thumbnail": "https://example.com/image14.jpg",
+      "approved": false,
+      "created_at": "2026-04-01T10:30:00.000000Z",
+      "updated_at": "2026-04-01T10:30:00.000000Z",
+      "user": {
+        "id": 14,
+        "name": "Natasha Romanoff",
+        "email": "natasha@example.com"
+      }
+    },
+    {
+      "id": 15,
+      "user_id": 15,
+      "company": "E-commerce Ltd.",
+      "designation": "Customer Service Rep",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2026-05-25",
+      "description": "Customer service representative needed.",
+      "thumbnail": "https://example.com/image15.jpg",
+      "approved": false,
+      "created_at": "2026-05-01T09:00:00.000000Z",
+      "updated_at": "2026-05-01T09:00:00.000000Z",
+      "user": {
+        "id": 15,
+        "name": "Bruce Wayne",
+        "email": "bruce@example.com"
+      }
+    },
+    {
+      "id": 16,
+      "user_id": 16,
+      "company": "Gaming Studio",
+      "designation": "Game Designer",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2026-06-10",
+      "description": "Join our team as a game designer.",
+      "thumbnail": "https://example.com/image16.jpg",
+      "approved": false,
+      "created_at": "2026-06-01T10:00:00.000000Z",
+      "updated_at": "2026-06-01T10:00:00.000000Z",
+      "user": {
+        "id": 16,
+        "name": "Peter Parker",
+        "email": "peter@example.com"
+      }
+    },
+    {
+      "id": 17,
+      "user_id": 17,
+      "company": "Consulting Firm",
+      "designation": "Business Analyst",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2026-07-15",
+      "description": "Business analyst position available.",
+      "thumbnail": "https://example.com/image17.jpg",
+      "approved": false,
+      "created_at": "2026-07-01T09:30:00.000000Z",
+      "updated_at": "2026-07-01T09:30:00.000000Z",
+      "user": {
+        "id": 17,
+        "name": "Wade Wilson",
+        "email": "wade@example.com"
+      }
+    },
+    {
+      "id": 18,
+      "user_id": 18,
+      "company": "Real Estate Co.",
+      "designation": "Real Estate Agent",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2026-08-20",
+      "description": "Real estate agent position open.",
+      "thumbnail": "https://example.com/image18.jpg",
+      "approved": false,
+      "created_at": "2026-08-01T10:00:00.000000Z",
+      "updated_at": "2026-08-01T10:00:00.000000Z",
+      "user": {
+        "id": 18,
+        "name": "Clark Kent",
+        "email": "clark@example.com"
+      }
+    },
+    {
+      "id": 19,
+      "user_id": 19,
+      "company": "Telecom Inc.",
+      "designation": "Network Engineer",
+      "type": "Full-Time",
+      "link": "https://example.com",
+      "due_date": "2026-09-15",
+      "description": "Network engineer position available.",
+      "thumbnail": "https://example.com/image19.jpg",
+      "approved": false,
+      "created_at": "2026-09-01T09:00:00.000000Z",
+      "updated_at": "2026-09-01T09:00:00.000000Z",
+      "user": {
+        "id": 19,
+        "name": "Diana Prince",
+        "email": "diana@example.com"
+      }
+    },
+    {
+      "id": 20,
+      "user_id": 20,
+      "company": "Media Group",
+      "designation": "Content Writer",
+      "type": "Freelance",
+      "link": "https://example.com",
+      "due_date": "2026-10-30",
+      "description": "Freelance content writer needed.",
+      "thumbnail": "https://example.com/image20.jpg",
+      "approved": false,
+      "created_at": "2026-10-01T10:00:00.000000Z",
+      "updated_at": "2026-10-01T10:00:00.000000Z",
+      "user": {
+        "id": 20,
+        "name": "Selina Kyle",
+        "email": "selina@example.com"
+      }
+    }
+]

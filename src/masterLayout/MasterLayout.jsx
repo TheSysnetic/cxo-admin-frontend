@@ -38,7 +38,7 @@ const MasterLayout = ({ children }) => {
           <Icon icon='radix-icons:cross-2' />
         </button>
         <div>
-          <Link href='/' className='sidebar-logo justify-content-center'>
+          <Link href='/dashboard' className='sidebar-logo justify-content-center'>
             <img
               src='/assets/images/logo.png'
               alt='site logo'
@@ -59,7 +59,7 @@ const MasterLayout = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link href='/' className={pathname === "/" ? "active-page" : ""}>
+              <Link href='/dashboard' className={pathname === "/dashboard" ? "active-page" : ""}>
                 <Icon icon='material-symbols:dashboard-outline' className='menu-icon' />
                 <span>Dashboard</span>
               </Link>
@@ -77,9 +77,9 @@ const MasterLayout = ({ children }) => {
               </Link>
             </li>
             <li>
-              <Link href='/job' className={pathname === "/job" ? "active-page" : ""}>
+              <Link href='/job-post' className={pathname === "/job-post" ? "active-page" : ""}>
                 <Icon icon='hugeicons:job-search' className='menu-icon' />
-                <span>Job</span>
+                <span>Job Posts</span>
               </Link>
             </li>
             <li>
@@ -89,15 +89,15 @@ const MasterLayout = ({ children }) => {
               </Link>
             </li>
             <li>
-              <Link href='/news' className={pathname === "/news" ? "active-page" : ""}>
+              <Link href='/news' className={pathname === "/news" || pathname === "/news/create" || pathname === "/news/edit" ? "active-page" : ""}>
                 <Icon icon='iconamoon:news-light' className='menu-icon' />
                 <span>News</span>
               </Link>
             </li>
             <li>
-              <Link href='/magzine' className={pathname === "/magzine" ? "active-page" : ""}>
+              <Link href='/magazine' className={pathname === "/magazine" || pathname === "/magazine/create" || pathname === "/magazine/edit" ? "active-page" : ""}>
                 <Icon icon='prime:file-pdf' className='menu-icon' />
-                <span>Magzine</span>
+                <span>Magazine</span>
               </Link>
             </li>
           </ul>
@@ -190,7 +190,7 @@ const MasterLayout = ({ children }) => {
                       <li>
                         <Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3'
-                          href='#'
+                          href='/'
                         >
                           <Icon icon='lucide:power' className='icon text-xl' />{" "}
                           Log Out

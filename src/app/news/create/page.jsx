@@ -1,9 +1,9 @@
 import Breadcrumb from "@/components/Breadcrumb";
-// import TableDataLayer from "@/components/members/show-data";
+import AddNews from "@/components/news/create";
 import MasterLayout from "@/masterLayout/MasterLayout";
 
 export const metadata = {
-  title: "WowDash NEXT JS - Admin Dashboard Multipurpose Bootstrap 5 Template",
+  title: "CxO Global Forum",
   description:
     "Wowdash NEXT JS is a developer-friendly, ready-to-use admin template designed for building attractive, scalable, and high-performing web applications.",
 };
@@ -14,10 +14,9 @@ const Page = () => {
       {/* MasterLayout */}
       <MasterLayout>
         {/* Breadcrumb */}
-        <Breadcrumb title='Magzine' />
+        <Breadcrumb title='Create News' page='Create News' />
 
-        {/* TableDataLayer */}
-        {/* <TableDataLayer /> */}
+        <AddNews />   
       </MasterLayout>
     </>
   );

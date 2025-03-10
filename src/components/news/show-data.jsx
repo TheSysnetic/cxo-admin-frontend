@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-const MemberData = () => {
+const NewsData = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -16,7 +16,7 @@ const MemberData = () => {
 
   useEffect(() => {
     // Fetch data from JSON file
-    fetch("/member.json") // Ensure this path is correct
+    fetch("/news.json") // Changed from /member.json to /news.json
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -45,11 +45,16 @@ const MemberData = () => {
   // Filter data based on search term
   const filteredData = sortedData.filter(
     (item) =>
+      (item.title &&
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.description &&
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.active !== undefined && String(item.active).includes(searchTerm)) ||
       (item.name &&
         item.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (item.email &&
         item.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (item.id && item.id.includes(searchTerm))
+      (item.id && String(item.id).includes(searchTerm))
   );
 
   // Calculate pagination
@@ -57,6 +62,14 @@ const MemberData = () => {
   const endIndex = startIndex + rowsPerPage;
   const currentData = filteredData.slice(startIndex, endIndex);
   const pageCount = Math.ceil(filteredData.length / rowsPerPage);
+
+  const handleToggleApproval = (id) => {
+    setData((prevData) =>
+      prevData.map((item) =>
+        item.id === id ? { ...item, approved: !item.approved } : item
+      )
+    );
+  };
 
   // Handle sorting
   const requestSort = (key) => {
@@ -94,11 +107,11 @@ const MemberData = () => {
             <div className="row">
               <div className="col-sm-6">
                 <Link
-                href={'/members/create'}
+                href={'/news/create'}
                   type="button"
                   className="btn btn-primary-600 radius-8 px-20 py-11 d-flex align-items-center gap-2 float-end"
                 >
-                  Add Member{" "}
+                  Add News{" "}
                   <Icon icon="mingcute:add-fill" className="text-xl" />
                 </Link>
               </div>
@@ -123,9 +136,9 @@ const MemberData = () => {
           <thead>
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Designation</th>
-              <th scope="col">Email</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Active</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -133,30 +146,39 @@ const MemberData = () => {
             {currentData.map((item) => (
               <tr key={item.id}>
                 <td>
-                  <div className="form-check style-check d-flex align-items-center">
-                    <input className="form-check-input" type="checkbox" />
-                    <label className="form-check-label">{item.id}</label>
-                  </div>
+                  {item.id}
                 </td>
                 <td>
-                  <Link href="#" className="text-primary-600">
-                    {item.name}
-                  </Link>
+                    {item.title}
                 </td>
-                <td>{item.title}</td>
-                <td>{item.email}</td>
+                <td>{item.description}</td>
+                <td>
+                  <div className="form-switch switch-success d-flex align-items-center gap-3">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id={`activeSwitch-${item.id}`}
+                      defaultChecked={item.active}
+                      onChange={() => handleToggleApproval(item.id)}
+                    />
+                    <label className="form-check-label line-height-1 fw-medium text-secondary-light" htmlFor={`activeSwitch-${item.id}`}>
+                      {item.active ? "Active" : "Not Active"}
+                    </label>
+                  </div>
+                </td>
                 <td>
                   <Link
                     href="#"
                     className="w-32-px h-32-px me-8 bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center"
                     data-bs-toggle='modal'
-                    data-bs-target='#viewAllMember'
+                    data-bs-target='#viewAllNews'
                     onClick={() => setSelectedMember(item)}
                   >
                     <Icon icon="iconamoon:eye-light" />
                   </Link>
                   <Link
-                    href={`/members/edit?id=${item.id}&name=${encodeURIComponent(item.name)}&designation=${encodeURIComponent(item.title)}&email=${encodeURIComponent(item.email)}`}
+                    href={`/news/edit?id=${item.id}&title=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}`}
                     className="w-32-px h-32-px me-8 bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center"
                   >
                     <Icon icon="lucide:edit" />
@@ -245,7 +267,7 @@ const MemberData = () => {
       {/* Modal */}
       <div
         className='modal fade'
-        id='viewAllMember'
+        id='viewAllNews'
         tabIndex={-1}
         aria-labelledby='exampleModalLabel'
         aria-hidden='true'
@@ -272,24 +294,9 @@ const MemberData = () => {
                         htmlFor='name'
                         className='form-label fw-semibold text-primary-light text-sm mb-8'
                       >
-                        Name
+                        Title
                       </label>
-                      <input
-                        type='text'
-                        className='form-control radius-8'
-                        id='name'
-                        value={selectedMember.name}
-                        readOnly
-                      />
-                    </div>
-                    <div className='col-6 mb-20'>
-                      <label
-                        htmlFor='designation'
-                        className='form-label fw-semibold text-primary-light text-sm mb-8'
-                      >
-                        Designation
-                      </label>
-                      <input
+                      <textarea
                         type='text'
                         className='form-control radius-8'
                         id='name'
@@ -299,16 +306,31 @@ const MemberData = () => {
                     </div>
                     <div className='col-6 mb-20'>
                       <label
+                        htmlFor='designation'
+                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                      >
+                        Description
+                      </label>
+                      <textarea
+                        type='text'
+                        className='form-control radius-8'
+                        id='name'
+                        value={selectedMember.description}
+                        readOnly
+                      />
+                    </div>
+                    <div className='col-6 mb-20'>
+                      <label
                         htmlFor='email'
                         className='form-label fw-semibold text-primary-light text-sm mb-8'
                       >
-                        Email
+                        Active
                       </label>
                       <input
                         type='text'
                         className='form-control radius-8'
                         id='name'
-                        value={selectedMember.email}
+                        value={selectedMember.active ? "Active" : "Not Active"}
                         readOnly
                       />
                     </div>
@@ -320,7 +342,7 @@ const MemberData = () => {
                         Image
                       </label>
                       <br/>
-                      <img src="/assets/images/avatar/avatar.png" alt=""  className="w-80-px h-80-px rounded-circle object-fit-cover"/>
+                      <img src="/assets/images/avatar/avatar.png" alt=""  className="w-80-px h-80-px object-fit-cover"/>
                       
                     </div>
                     <div className='d-flex align-items-center justify-content-center gap-3 mt-24'>
@@ -341,4 +363,4 @@ const MemberData = () => {
   );
 };
 
-export default MemberData;
+export default NewsData;

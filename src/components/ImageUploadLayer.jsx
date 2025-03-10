@@ -1,7 +1,7 @@
 import BasicUpload from "./child/BasicUpload";
 import ImageUpload from "./members/ImageUpload";
 import UploadWithImagePreview from "./child/UploadWithImagePreview";
-import UploadWithImagePreviewList from "./child/UploadWithImagePreviewList";
+import UploadWithImagePreviewList from "./magazine/upload-file";
 
 const ImageUploadLayer = () => {
   return (

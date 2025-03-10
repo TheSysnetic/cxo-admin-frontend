@@ -15,7 +15,7 @@ const CampaignStaticOne = () => {
           <div className='card h-100 radius-8 border-0'>
             <div className='card-body p-24'>
               <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-                <h6 className='mb-2 fw-bold text-lg'>Campaigns</h6>
+                <h6 className='mb-2 fw-bold text-lg'>Social Analytics</h6>
                 <div className=''>
                   <select
                     className='form-select form-select-sm w-auto bg-base border text-secondary-light'
@@ -166,7 +166,7 @@ const CampaignStaticOne = () => {
           <div className='card h-100 radius-8 border-0 overflow-hidden'>
             <div className='card-body p-24'>
               <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between'>
-                <h6 className='mb-2 fw-bold text-lg'>Customer Overview</h6>
+                <h6 className='mb-2 fw-bold text-lg'>Members Registered</h6>
                 <div className=''>
                   <select
                     className='form-select form-select-sm w-auto bg-base border text-secondary-light'
@@ -187,19 +187,19 @@ const CampaignStaticOne = () => {
                   <li className='d-flex align-items-center gap-2 mb-28'>
                     <span className='w-12-px h-12-px rounded-circle bg-success-main' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      Total: 500
+                      Total: 10
                     </span>
                   </li>
                   <li className='d-flex align-items-center gap-2 mb-28'>
                     <span className='w-12-px h-12-px rounded-circle bg-warning-main' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      New: 500
+                      New: 10
                     </span>
                   </li>
                   <li className='d-flex align-items-center gap-2'>
                     <span className='w-12-px h-12-px rounded-circle bg-primary-600' />
                     <span className='text-secondary-light text-sm fw-medium'>
-                      Active: 1500
+                      Active: 18
                     </span>
                   </li>
                 </ul>

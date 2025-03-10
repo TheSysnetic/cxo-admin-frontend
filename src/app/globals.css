@@ -24,12 +24,13 @@
   }
   
   .btn-primary {
-    background-color: #007bff; /* Blue */
+    background-color: #238DB5 !important;
+    border: none !important;
     color: #fff; /* Text color */
   }
   
   .btn-secondary {
-    background-color: #8bbff7 !important; /* Blue for enabled state */
+    background-color: #238DB5 !important; /* Blue for enabled state */
     outline: none;
     border: none !important;
     color: #fff; /* Text color */

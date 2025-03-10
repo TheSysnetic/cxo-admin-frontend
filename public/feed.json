@@ -1,0 +1,413 @@
+[
+    {
+      "id": 1,
+      "user_id": 1,
+      "description": "Exploring the beauty of nature in the mountains.",
+      "approved": true,
+      "created_at": "2023-10-01T12:00:00Z",
+      "updated_at": "2023-10-01T12:00:00Z",
+      "like_count": 15,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 1,
+        "name": "Alice Johnson",
+        "email": "alice.johnson@example.com"
+      },
+      "images": [
+        {
+          "id": 1,
+          "feed_id": 1,
+          "image": "https://example.com/image1.jpg"
+        }
+      ],
+      "comments": [
+        {
+          "id": 1,
+          "user_id": 1,
+          "feed_id": 1,
+          "parent_id": null,
+          "comment": "Absolutely stunning view!",
+          "created_at": "2023-10-01T12:00:00Z",
+          "updated_at": "2023-10-01T12:00:00Z",
+          "user": {
+            "id": 1,
+            "name": "Alice Johnson",
+            "email": "alice.johnson@example.com"
+          },
+          "replies": [
+            {
+              "id": 2,
+              "comment": "I need to visit this place!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "description": "Just finished reading a fantastic book!",
+      "approved": false,
+      "created_at": "2023-10-02T14:00:00Z",
+      "updated_at": "2023-10-02T14:00:00Z",
+      "like_count": 8,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 2,
+        "name": "Bob Smith",
+        "email": "bob.smith@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 3,
+      "user_id": 3,
+      "description": "Had a great time at the beach today!",
+      "approved": true,
+      "created_at": "2023-10-03T09:30:00Z",
+      "updated_at": "2023-10-03T09:30:00Z",
+      "like_count": 20,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 3,
+        "name": "Charlie Brown",
+        "email": "charlie.brown@example.com"
+      },
+      "images": [
+        {
+          "id": 2,
+          "feed_id": 3,
+          "image": "https://example.com/image2.jpg"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 4,
+      "user_id": 4,
+      "description": "Cooking a new recipe for dinner tonight!",
+      "approved": false,
+      "created_at": "2023-10-04T18:15:00Z",
+      "updated_at": "2023-10-04T18:15:00Z",
+      "like_count": 0,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 4,
+        "name": "Diana Prince",
+        "email": "diana.prince@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 5,
+      "user_id": 5,
+      "description": "Just got back from a long hike!",
+      "approved": true,
+      "created_at": "2023-10-05T11:00:00Z",
+      "updated_at": "2023-10-05T11:00:00Z",
+      "like_count": 12,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 5,
+        "name": "Edward Elric",
+        "email": "edward.elric@example.com"
+      },
+      "images": [
+        {
+          "id": 3,
+          "feed_id": 5,
+          "image": "https://example.com/image3.jpg"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 6,
+      "user_id": 6,
+      "description": "Excited for the weekend getaway!",
+      "approved": true,
+      "created_at": "2023-10-06T15:45:00Z",
+      "updated_at": "2023-10-06T15:45:00Z",
+      "like_count": 18,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 6,
+        "name": "Fiona Gallagher",
+        "email": "fiona.gallagher@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 7,
+      "user_id": 7,
+      "description": "Just finished a great workout!",
+      "approved": true,
+      "created_at": "2023-10-07T08:00:00Z",
+      "updated_at": "2023-10-07T08:00:00Z",
+      "like_count": 25,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 7,
+        "name": "George Costanza",
+        "email": "george.costanza@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 8,
+      "user_id": 8,
+      "description": "Enjoying a cup of coffee at my favorite café.",
+      "approved": true,
+      "created_at": "2023-10-08T10:30:00Z",
+      "updated_at": "2023-10-08T10:30:00Z",
+      "like_count": 10,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 8,
+        "name": "Hannah Baker",
+        "email": "hannah.baker@example.com"
+      },
+      "images": [
+        {
+          "id": 4,
+          "feed_id": 8,
+          "image": "https://example.com/image4.jpg"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 9,
+      "user_id": 9,
+      "description": "Just adopted a new puppy!",
+      "approved": true,
+      "created_at": "2023-10-09T14:00:00Z",
+      "updated_at": "2023-10-09T14:00:00Z",
+      "like_count": 30,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 9,
+        "name": "Ian Malcolm",
+        "email": "ian.malcolm@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 10,
+      "user_id": 10,
+      "description": "Visited a new art gallery today.",
+      "approved": true,
+      "created_at": "2023-10-10T16:00:00Z",
+      "updated_at": "2023-10-10T16:00:00Z",
+      "like_count": 22,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 10,
+        "name": "Jack Sparrow",
+        "email": "jack.sparrow@example.com"
+      },
+      "images": [
+        {
+          "id": 5,
+          "feed_id": 10,
+          "image": "https://example.com/image5.jpg"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 11,
+      "user_id": 11,
+      "description": "Trying out a new restaurant tonight!",
+      "approved": true,
+      "created_at": "2023-10-11T19:00:00Z",
+      "updated_at": "2023-10-11T19:00:00Z",
+      "like_count": 14,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 11,
+        "name": "Lara Croft",
+        "email": "lara.croft@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 12,
+      "user_id": 12,
+      "description": "Just finished a puzzle!",
+      "approved": true,
+      "created_at": "2023-10-12T12:00:00Z",
+      "updated_at": "2023-10-12T12:00:00Z",
+      "like_count": 9,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 12,
+        "name": "Peter Parker",
+        "email": "peter.parker@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 13,
+      "user_id": 13,
+      "description": "Just got back from a road trip!",
+      "approved": true,
+      "created_at": "2023-10-13T15:30:00Z",
+      "updated_at": "2023-10-13T15:30:00Z",
+      "like_count": 17,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 13,
+        "name": "Bruce Wayne",
+        "email": "bruce.wayne@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 14,
+      "user_id": 14,
+      "description": "Baking cookies for the holidays!",
+      "approved": true,
+      "created_at": "2023-10-14T09:00:00Z",
+      "updated_at": "2023-10-14T09:00:00Z",
+      "like_count": 11,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 14,
+        "name": "Clark Kent",
+        "email": "clark.kent@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 15,
+      "user_id": 15,
+      "description": "Just finished a marathon!",
+      "approved": true,
+      "created_at": "2023-10-15T11:45:00Z",
+      "updated_at": "2023-10-15T11:45:00Z",
+      "like_count": 28,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 15,
+        "name": "Tony Stark",
+        "email": "tony.stark@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 16,
+      "user_id": 16,
+      "description": "Learning to play the guitar!",
+      "approved": true,
+      "created_at": "2023-10-16T14:00:00Z",
+      "updated_at": "2023-10-16T14:00:00Z",
+      "like_count": 6,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 16,
+        "name": "Natasha Romanoff",
+        "email": "natasha.romanoff@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 17,
+      "user_id": 17,
+      "description": "Just got a new job!",
+      "approved": true,
+      "created_at": "2023-10-17T16:30:00Z",
+      "updated_at": "2023-10-17T16:30:00Z",
+      "like_count": 19,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 17,
+        "name": "Wade Wilson",
+        "email": "wade.wilson@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 18,
+      "user_id": 18,
+      "description": "Going to a concert this weekend!",
+      "approved": true,
+      "created_at": "2023-10-18T12:00:00Z",
+      "updated_at": "2023-10-18T12:00:00Z",
+      "like_count": 13,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 18,
+        "name": "Gamora",
+        "email": "gamora@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 19,
+      "user_id": 19,
+      "description": "Just finished a painting!",
+      "approved": true,
+      "created_at": "2023-10-19T14:00:00Z",
+      "updated_at": "2023-10-19T14:00:00Z",
+      "like_count": 21,
+      "has_liked": true,
+      "has_reported": false,
+      "user": {
+        "id": 19,
+        "name": "Vision",
+        "email": "vision@example.com"
+      },
+      "images": [],
+      "comments": []
+    },
+    {
+      "id": 20,
+      "user_id": 20,
+      "description": "Just got back from a vacation!",
+      "approved": true,
+      "created_at": "2023-10-20T10:00:00Z",
+      "updated_at": "2023-10-20T10:00:00Z",
+      "like_count": 24,
+      "has_liked": false,
+      "has_reported": false,
+      "user": {
+        "id": 20,
+        "name": "Thor",
+        "email": "thor@example.com"
+      },
+      "images": [],
+      "comments": []
+    }
+]
