@@ -1,5 +1,6 @@
 "use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Link from "next/link";
 import { useState } from "react";
 
 const ViewProfileLayer = () => {
@@ -35,18 +36,18 @@ const ViewProfileLayer = () => {
           <img
             src='assets/images/user-grid/user-grid-bg1.png'
             alt=''
-            className='w-100 object-fit-cover'
+            className='w-100 h-200-px object-fit-cover'
           />
           <div className='pb-24 ms-16 mb-24 me-16  mt--100'>
             <div className='text-center border border-top-0 border-start-0 border-end-0'>
               <img
-                src='assets/images/user-grid/user-grid-img14.png'
+                src='assets/images/avatar/avatar.png'
                 alt=''
                 className='border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover'
               />
-              <h6 className='mb-0 mt-16'>Jacob Jones</h6>
+              <h6 className='mb-0 mt-16'>Kanwal Masroor</h6>
               <span className='text-secondary-light mb-16'>
-                ifrandom@gmail.com
+                kanwal.masroor@gmail.com
               </span>
             </div>
             <div className='mt-24'>
@@ -57,7 +58,7 @@ const ViewProfileLayer = () => {
                     Full Name
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : Will Jonto
+                    : Kanwal Masroor
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1 mb-12'>
@@ -66,7 +67,7 @@ const ViewProfileLayer = () => {
                     Email
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : willjontoax@gmail.com
+                    : kanwal.masroor@gmail.com
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1 mb-12'>
@@ -75,7 +76,7 @@ const ViewProfileLayer = () => {
                     Phone Number
                   </span>
                   <span className='w-70 text-secondary-light fw-medium'>
-                    : (1) 2536 2561 2365
+                    : 03002343562
                   </span>
                 </li>
                 <li className='d-flex align-items-center gap-1 mb-12'>
@@ -157,21 +158,6 @@ const ViewProfileLayer = () => {
                   Change Password
                 </button>
               </li>
-              <li className='nav-item' role='presentation'>
-                <button
-                  className='nav-link d-flex align-items-center px-24'
-                  id='pills-notification-tab'
-                  data-bs-toggle='pill'
-                  data-bs-target='#pills-notification'
-                  type='button'
-                  role='tab'
-                  aria-controls='pills-notification'
-                  aria-selected='false'
-                  tabIndex={-1}
-                >
-                  Notification Settings
-                </button>
-              </li>
             </ul>
             <div className='tab-content' id='pills-tabContent'>
               <div
@@ -212,6 +198,7 @@ const ViewProfileLayer = () => {
                           backgroundImage: `url(${imagePreview})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
+                          padding: "50px"
                         }}
                       />
                     </div>
@@ -376,12 +363,13 @@ const ViewProfileLayer = () => {
                     >
                       Cancel
                     </button>
-                    <button
+                    <Link
+                      href={'/dashboard'}
                       type='button'
                       className='btn btn-primary border border-primary-600 text-md px-56 py-12 radius-8'
                     >
                       Save
-                    </button>
+                    </Link>
                   </div>
                 </form>
               </div>
@@ -437,102 +425,6 @@ const ViewProfileLayer = () => {
                       } cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light`}
                       onClick={toggleConfirmPasswordVisibility}
                     ></span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className='tab-pane fade'
-                id='pills-notification'
-                role='tabpanel'
-                aria-labelledby='pills-notification-tab'
-                tabIndex={0}
-              >
-                <div className='form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16'>
-                  <label
-                    htmlFor='companzNew'
-                    className='position-absolute w-100 h-100 start-0 top-0'
-                  />
-                  <div className='d-flex align-items-center gap-3 justify-content-between'>
-                    <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Company News
-                    </span>
-                    <input
-                      className='form-check-input'
-                      type='checkbox'
-                      role='switch'
-                      id='companzNew'
-                    />
-                  </div>
-                </div>
-                <div className='form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16'>
-                  <label
-                    htmlFor='pushNotifcation'
-                    className='position-absolute w-100 h-100 start-0 top-0'
-                  />
-                  <div className='d-flex align-items-center gap-3 justify-content-between'>
-                    <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Push Notification
-                    </span>
-                    <input
-                      className='form-check-input'
-                      type='checkbox'
-                      role='switch'
-                      id='pushNotifcation'
-                      defaultChecked=''
-                    />
-                  </div>
-                </div>
-                <div className='form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16'>
-                  <label
-                    htmlFor='weeklyLetters'
-                    className='position-absolute w-100 h-100 start-0 top-0'
-                  />
-                  <div className='d-flex align-items-center gap-3 justify-content-between'>
-                    <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Weekly News Letters
-                    </span>
-                    <input
-                      className='form-check-input'
-                      type='checkbox'
-                      role='switch'
-                      id='weeklyLetters'
-                      defaultChecked=''
-                    />
-                  </div>
-                </div>
-                <div className='form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16'>
-                  <label
-                    htmlFor='meetUp'
-                    className='position-absolute w-100 h-100 start-0 top-0'
-                  />
-                  <div className='d-flex align-items-center gap-3 justify-content-between'>
-                    <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Meetups Near you
-                    </span>
-                    <input
-                      className='form-check-input'
-                      type='checkbox'
-                      role='switch'
-                      id='meetUp'
-                    />
-                  </div>
-                </div>
-                <div className='form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16'>
-                  <label
-                    htmlFor='orderNotification'
-                    className='position-absolute w-100 h-100 start-0 top-0'
-                  />
-                  <div className='d-flex align-items-center gap-3 justify-content-between'>
-                    <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
-                      Orders Notifications
-                    </span>
-                    <input
-                      className='form-check-input'
-                      type='checkbox'
-                      role='switch'
-                      id='orderNotification'
-                      defaultChecked=''
-                    />
                   </div>
                 </div>
               </div>

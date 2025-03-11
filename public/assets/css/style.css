@@ -13962,6 +13962,7 @@ select option {
 .avatar-upload .avatar-preview {
   width: 150px;
   height: 150px;
+  padding: 10px;
   position: relative;
   border-radius: 100%;
   border: 1px solid var(--primary-600);
