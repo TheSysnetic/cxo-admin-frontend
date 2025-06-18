@@ -489,7 +489,7 @@ const useReactApexChart = () => {
     let series = [
       {
         name: "This Day",
-        data: [4, 18, 13, 40, 30, 50, 30, 60, 40, 75, 45, 90],
+        data: [4, 18, 13, 40, 30, 50, 30],
       },
     ];
 
@@ -575,18 +575,13 @@ const useReactApexChart = () => {
       },
       xaxis: {
         categories: [
-          `Jan`,
-          `Feb`,
-          `Mar`,
-          `Apr`,
-          `May`,
-          `Jun`,
-          `Jul`,
-          `Aug`,
-          `Sep`,
-          `Oct`,
-          `Nov`,
-          `Dec`,
+          `Mon`,
+          `Tue`,
+          `Wed`,
+          `Thr`,
+          `Fri`,
+          `Sat`,
+          `Sun`
         ],
         tooltip: {
           enabled: false,

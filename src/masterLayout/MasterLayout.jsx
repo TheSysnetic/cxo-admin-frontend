@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname } from "next/navigation";
 import ThemeToggleButton from "../helper/ThemeToggleButton";
@@ -7,8 +8,16 @@ import Link from "next/link";
 
 const MasterLayout = ({ children }) => {
   let pathname = usePathname();
+  let router = useRouter();
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/');
+    }
+  }, [router]);
 
   let sidebarControl = () => {
     seSidebarActive(!sidebarActive);
@@ -191,6 +200,9 @@ const MasterLayout = ({ children }) => {
                         <Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3'
                           href='/'
+                          onClick={() => {
+                            localStorage.removeItem('token');
+                          }}
                         >
                           <Icon icon='lucide:power' className='icon text-xl' />{" "}
                           Log Out
@@ -216,7 +228,15 @@ const MasterLayout = ({ children }) => {
             </div>
             <div className='col-auto'>
               <p className='mb-0'>
-                Develop by Sysnetic
+                Powered by{" "}
+                <a 
+                  href="https://thesysnetic.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary-600 hover-text-primary-700 text-decoration-none fw-medium"
+                >
+                  Sysnetic
+                </a>
               </p>
             </div>
           </div>

@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ApiService from "@/app/api-services/apiServices";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const JobPostsData = () => {
   const [data, setData] = useState([]);
@@ -13,28 +16,26 @@ const JobPostsData = () => {
     direction: "ascending",
   });
   const [selectedMember, setSelectedMember] = useState(null);
-  const [feeds, setFeeds] = useState([]);
 
   useEffect(() => {
     // Fetch data from JSON file
-    fetch("/job_post.json")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setFeeds(data);
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        const response = await ApiService.get("job-posts"); // Adjust the endpoint as necessary
+        setData(response.data.data);
+      } catch (error) {
         console.error("Error loading data:", error);
-      });
+        toast.error("Error loading job posts", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    };
+    fetchData();
   }, []);
 
   // Sorting function
-  const sortedData = [...feeds].sort((a, b) => {
+  const sortedData = [...data].sort((a, b) => {
     if (a.id < b.id) {
       return sortConfig.direction === "ascending" ? -1 : 1;
     }
@@ -52,7 +53,9 @@ const JobPostsData = () => {
       (item.user.email &&
         item.user.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
       item.id.toString().includes(searchTerm) ||
-      (item.approved ? "Approved" : "Pending").toLowerCase().includes(searchTerm.toLowerCase())
+      (item.approved ? "Approved" : "Pending")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
   );
 
   // Calculate pagination
@@ -71,12 +74,37 @@ const JobPostsData = () => {
   };
 
   // Function to handle approval toggle
-  const handleToggleApproval = (id) => {
-    setFeeds((prevFeeds) =>
-      prevFeeds.map((feed) =>
-        feed.id === id ? { ...feed, approved: !feed.approved } : feed
-      )
-    );
+  const handleToggleApproval = async (id, currentStatus) => {
+    if (currentStatus) {
+      toast.warning("Cannot revert approved status", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    try {
+      const response = await ApiService.post(`job-posts/${id}/status`, {
+        approved: true
+      });
+      if (response.data.success) {
+        setData((prevData) =>
+          prevData.map((item) =>
+            item.id === id ? { ...item, approved: true } : item
+          )
+        );
+        toast.success("Job post approved successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Error updating job post status:", error);
+      toast.error("Error updating job post status", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   };
 
   return (
@@ -141,7 +169,10 @@ const JobPostsData = () => {
                 <td>{item.company}</td>
                 <td>{item.designation}</td>
                 <td>{item.type}</td>
-                <td>{item.description.split(' ').slice(0, 7).join(' ') + (item.description.split(' ').length > 7 ? '...' : '')}</td>
+                <td>
+                  {item.description.split(" ").slice(0, 7).join(" ") +
+                    (item.description.split(" ").length > 7 ? "..." : "")}
+                </td>
                 <td>{item.user.name}</td>
                 <td>
                   <div className="form-switch switch-success d-flex align-items-center gap-3">
@@ -150,10 +181,14 @@ const JobPostsData = () => {
                       type="checkbox"
                       role="switch"
                       id={`activeSwitch-${item.id}`}
-                      defaultChecked={item.approved}
-                      onChange={() => handleToggleApproval(item.id)}
+                      checked={item.approved}
+                      disabled={item.approved}
+                      onChange={() => handleToggleApproval(item.id, item.approved)}
                     />
-                    <label className="form-check-label line-height-1 fw-medium text-secondary-light" htmlFor={`activeSwitch-${item.id}`}>
+                    <label
+                      className="form-check-label line-height-1 fw-medium text-secondary-light"
+                      htmlFor={`activeSwitch-${item.id}`}
+                    >
                       {item.approved ? "Approved" : "Pending"}
                     </label>
                   </div>
@@ -168,12 +203,12 @@ const JobPostsData = () => {
                   >
                     <Icon icon="iconamoon:eye-light" />
                   </Link>
-                  <Link
+                  {/* <Link
                     href="#"
                     className="w-32-px h-32-px me-8 bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center"
                   >
                     <Icon icon="mingcute:delete-2-line" />
-                  </Link>
+                  </Link> */}
                 </td>
               </tr>
             ))}
@@ -274,18 +309,23 @@ const JobPostsData = () => {
                   <div className="row">
                     <div className="col-6 mb-20">
                       <label
-                        htmlFor="id"
+                        htmlFor="mailingAddress"
                         className="form-label fw-semibold text-primary-light text-sm mb-8"
                       >
                         ID
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="id"
-                        value={selectedMember.id}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:identifier" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="id"
+                          value={selectedMember.id}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -294,13 +334,22 @@ const JobPostsData = () => {
                       >
                         Posted User
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="postedUser"
-                        value={selectedMember.user.name}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:account" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="postedUser"
+                          value={
+                            selectedMember.user.name
+                              ? selectedMember.user.name
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -309,13 +358,22 @@ const JobPostsData = () => {
                       >
                         User Email
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="userEmail"
-                        value={selectedMember.user.email}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:email" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="userEmail"
+                          value={
+                            selectedMember.user.email
+                              ? selectedMember.user.email
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -324,13 +382,20 @@ const JobPostsData = () => {
                       >
                         Job Post Status
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="postStatus"
-                        value={selectedMember.approved ? "Approved" : "Pending"}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon={selectedMember.approved ? "mdi:check-circle" : "mdi:clock-outline"} />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="postStatus"
+                          value={
+                            selectedMember.approved ? "Approved" : "Pending"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -339,12 +404,21 @@ const JobPostsData = () => {
                       >
                         Job Description
                       </label>
-                      <textarea
-                        className="form-control radius-8"
-                        id="description"
-                        value={selectedMember.description}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:text-box" />
+                        </span>
+                        <textarea
+                          className="form-control radius-8"
+                          id="description"
+                          value={
+                            selectedMember.description
+                              ? selectedMember.description
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -353,13 +427,22 @@ const JobPostsData = () => {
                       >
                         Company
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="company"
-                        value={selectedMember.company}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:office-building" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="company"
+                          value={
+                            selectedMember.company
+                              ? selectedMember.company
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -368,13 +451,22 @@ const JobPostsData = () => {
                       >
                         Designation
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="designation"
-                        value={selectedMember.designation}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:badge-account" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="designation"
+                          value={
+                            selectedMember.designation
+                              ? selectedMember.designation
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -383,13 +475,20 @@ const JobPostsData = () => {
                       >
                         Type
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="type"
-                        value={selectedMember.type}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:format-list-bulleted-type" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="type"
+                          value={
+                            selectedMember.type ? selectedMember.type : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -398,13 +497,20 @@ const JobPostsData = () => {
                       >
                         Link
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="link"
-                        value={selectedMember.link}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:link" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="link"
+                          value={
+                            selectedMember.link ? selectedMember.link : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -413,13 +519,22 @@ const JobPostsData = () => {
                       >
                         Due Date
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="dueDate"
-                        value={selectedMember.due_date}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:calendar" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="dueDate"
+                          value={
+                            selectedMember.due_date
+                              ? selectedMember.due_date
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -447,6 +562,7 @@ const JobPostsData = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

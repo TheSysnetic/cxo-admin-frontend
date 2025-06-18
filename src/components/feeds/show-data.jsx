@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ApiService from "@/app/api-services/apiServices";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FeedData = () => {
   const [data, setData] = useState([]);
@@ -12,29 +15,27 @@ const FeedData = () => {
     key: "id",
     direction: "ascending",
   });
-  const [selectedMember, setSelectedMember] = useState(null);
-  const [feeds, setFeeds] = useState([]);
+  const [selectedFeed, setSelectedFeed] = useState(null);
 
   useEffect(() => {
-    // Fetch data from JSON file
-    fetch("/feed.json")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setFeeds(data);
-      })
-      .catch((error) => {
+    // Fetch data from API
+    const fetchData = async () => {
+      try {
+        const response = await ApiService.get("feeds");
+        setData(response.data.data);
+      } catch (error) {
         console.error("Error loading data:", error);
-      });
+        toast.error("Error loading feeds", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    };
+    fetchData();
   }, []);
 
   // Sorting function
-  const sortedData = [...feeds].sort((a, b) => {
+  const sortedData = [...data].sort((a, b) => {
     if (a.id < b.id) {
       return sortConfig.direction === "ascending" ? -1 : 1;
     }
@@ -71,38 +72,43 @@ const FeedData = () => {
   };
 
   // Function to handle approval toggle
-  const handleToggleApproval = (id) => {
-    setFeeds((prevFeeds) =>
-      prevFeeds.map((feed) =>
-        feed.id === id ? { ...feed, approved: !feed.approved } : feed
-      )
-    );
-  };
+  const handleToggleApproval = async (id, currentStatus) => {
+    if (currentStatus) {
+      toast.warning("Cannot revert approved status", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
 
-  // Function to render comments and replies
-  const renderComments = (comments) => {
-    return comments.map((comment) => (
-      <div key={comment.id} className="comment mb-2">
-        <div className="comment-content">
-          <strong>{comment.user.name}:</strong> {comment.comment}
-        </div>
-        {comment.replies && comment.replies.length > 0 && (
-          <div className="replies ms-3">
-            {comment.replies.map((reply) => (
-              <div key={reply.id} className="reply">
-                <strong>Reply:</strong> {reply.comment}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    ));
+    try {
+      const response = await ApiService.put(`feeds/${id}/status`, {
+        approved: true
+      });
+      if (response.data.success) {
+        setData((prevData) =>
+          prevData.map((item) =>
+            item.id === id ? { ...item, approved: true } : item
+          )
+        );
+        toast.success("Feed approved successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Error updating feed status:", error);
+      toast.error("Error updating feed status", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   };
 
   return (
     <div className="card basic-data-table">
       <div className="card-header">
-        <h5 className="card-title mb-0">Default Data Tables</h5>
+        <h5 className="card-title mb-0">Feed Data Table</h5>
       </div>
       <div className="card-header">
         <div className="row mt-20">
@@ -140,7 +146,7 @@ const FeedData = () => {
           </div>
         </div>
       </div>
-      <div className="card-body overflow-scroll">
+      <div className="card-body">
         <table className="table bordered-table mb-0" id="dataTable">
           <thead>
             <tr>
@@ -164,8 +170,9 @@ const FeedData = () => {
                       type="checkbox"
                       role="switch"
                       id={`activeSwitch-${item.id}`}
-                      defaultChecked={item.approved}
-                      onChange={() => handleToggleApproval(item.id)}
+                      checked={item.approved}
+                      disabled={item.approved}
+                      onChange={() => handleToggleApproval(item.id, item.approved)}
                     />
                     <label className="form-check-label line-height-1 fw-medium text-secondary-light" htmlFor={`activeSwitch-${item.id}`}>
                       {item.approved ? "Approved" : "Pending"}
@@ -178,16 +185,16 @@ const FeedData = () => {
                     className="w-32-px h-32-px me-8 bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center"
                     data-bs-toggle="modal"
                     data-bs-target="#viewFeedDetails"
-                    onClick={() => setSelectedMember(item)}
+                    onClick={() => setSelectedFeed(item)}
                   >
                     <Icon icon="iconamoon:eye-light" />
                   </Link>
-                  <Link
+                  {/* <Link
                     href="#"
                     className="w-32-px h-32-px me-8 bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center"
                   >
                     <Icon icon="mingcute:delete-2-line" />
-                  </Link>
+                  </Link> */}
                 </td>
               </tr>
             ))}
@@ -198,9 +205,7 @@ const FeedData = () => {
             <button
               onClick={() => setCurrentPage(0)}
               disabled={currentPage === 0}
-              className={`btn btn-sm ${
-                currentPage === 0 ? "btn-light" : "btn-secondary"
-              }`}
+              className={`btn btn-sm ${currentPage === 0 ? "btn-light" : "btn-secondary"}`}
             >
               {"<<"}
             </button>
@@ -208,9 +213,7 @@ const FeedData = () => {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
               disabled={currentPage === 0}
-              className={`btn btn-sm ${
-                currentPage === 0 ? "btn-light" : "btn-secondary"
-              }`}
+              className={`btn btn-sm ${currentPage === 0 ? "btn-light" : "btn-secondary"}`}
             >
               {"<"}
             </button>
@@ -219,22 +222,16 @@ const FeedData = () => {
               <button
                 key={index}
                 onClick={() => setCurrentPage(index)}
-                className={`btn btn-sm ${
-                  currentPage === index ? "btn-primary" : "btn-light"
-                }`}
+                className={`btn btn-sm ${currentPage === index ? "btn-primary" : "btn-light"}`}
               >
                 {index + 1}
               </button>
             ))}
             <span className="mx-2"></span>
             <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, pageCount - 1))
-              }
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, pageCount - 1))}
               disabled={currentPage >= pageCount - 1}
-              className={`btn btn-sm ${
-                currentPage >= pageCount - 1 ? "btn-light" : "btn-secondary"
-              }`}
+              className={`btn btn-sm ${currentPage >= pageCount - 1 ? "btn-light" : "btn-secondary"}`}
             >
               {">"}
             </button>
@@ -242,23 +239,16 @@ const FeedData = () => {
             <button
               onClick={() => setCurrentPage(pageCount - 1)}
               disabled={currentPage >= pageCount - 1}
-              className={`btn btn-sm ${
-                currentPage >= pageCount - 1 ? "btn-light" : "btn-secondary"
-              }`}
+              className={`btn btn-sm ${currentPage >= pageCount - 1 ? "btn-light" : "btn-secondary"}`}
             >
               {">>"}
             </button>
           </div>
           <span>
-            Showing {startIndex + 1} to{" "}
-            {Math.min(endIndex, filteredData.length)} of {filteredData.length}{" "}
-            entries
+            Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries
           </span>
           <span>
-            Page{" "}
-            <strong>
-              {currentPage + 1} of {pageCount}
-            </strong>{" "}
+            Page <strong>{currentPage + 1} of {pageCount}</strong>
           </span>
         </div>
       </div>
@@ -283,127 +273,155 @@ const FeedData = () => {
               />
             </div>
             <div className="modal-body p-24">
-              {selectedMember && (
+              {selectedFeed && (
                 <form action="#">
                   <div className="row">
                     <div className="col-6 mb-20">
-                      <label
-                        htmlFor="name"
-                        className="form-label fw-semibold text-primary-light text-sm mb-8"
-                      >
+                      <label htmlFor="name" className="form-label fw-semibold text-primary-light text-sm mb-8">
                         ID
                       </label>
-                      <input
-                        type="id"
-                        className="form-control radius-8"
-                        id="name"
-                        value={selectedMember.id}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:identifier" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="name"
+                          value={selectedFeed.id}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
-                      <label
-                        htmlFor="name"
-                        className="form-label fw-semibold text-primary-light text-sm mb-8"
-                      >
+                      <label htmlFor="name" className="form-label fw-semibold text-primary-light text-sm mb-8">
                         Posted User
                       </label>
-                      <input
-                        type="id"
-                        className="form-control radius-8"
-                        id="name"
-                        value={selectedMember.user.name}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:account" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="name"
+                          value={selectedFeed.user.name}
+                          readOnly
+                        />
+                      </div>
                     </div>
-                    
                     <div className="col-6 mb-20">
-                      <label
-                        htmlFor="email"
-                        className="form-label fw-semibold text-primary-light text-sm mb-8"
-                      >
+                      <label htmlFor="email" className="form-label fw-semibold text-primary-light text-sm mb-8">
                         User Email
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="name"
-                        value={selectedMember.user.email}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:email" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="name"
+                          value={selectedFeed.user.email}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
-                      <label
-                        htmlFor="email"
-                        className="form-label fw-semibold text-primary-light text-sm mb-8"
-                      >
+                      <label htmlFor="email" className="form-label fw-semibold text-primary-light text-sm mb-8">
                         Post Status
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="name"
-                        value={selectedMember.approved ? "Approved" : "Pending"}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon={selectedFeed.approved ? "mdi:check-circle" : "mdi:clock-outline"} />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="name"
+                          value={selectedFeed.approved ? "Approved" : "Pending"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
-                      <label
-                        htmlFor="description"
-                        className="form-label fw-semibold text-primary-light text-sm mb-8"
-                      >
+                      <label htmlFor="description" className="form-label fw-semibold text-primary-light text-sm mb-8">
                         Post Description
                       </label>
-                      <textarea
-                        type="text"
-                        className="form-control radius-8"
-                        id="name"
-                        value={selectedMember.description}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:text-box" />
+                        </span>
+                        <textarea
+                          className="form-control radius-8"
+                          id="name"
+                          value={selectedFeed.description}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
-                      <label
-                        htmlFor="image"
-                        className="form-label fw-semibold text-primary-light text-sm mb-8"
-                      >
+                      <label htmlFor="image" className="form-label fw-semibold text-primary-light text-sm mb-8">
                         Post Images
                       </label>
-                      <br />
-                      <img
-                        src="/assets/images/avatar/avatar-shape1.png"
-                        alt=""
-                        className="w-120-px h-120-px object-fit-cover"
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:image" />
+                        </span>
+                        <img
+                          src="/assets/images/avatar/avatar-shape1.png"
+                          alt=""
+                          className="w-120-px h-120-px object-fit-cover"
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
-                      <label
-                        htmlFor="name"
-                        className="form-label fw-semibold text-primary-light text-sm mb-8"
-                      >
+                      <label htmlFor="name" className="form-label fw-semibold text-primary-light text-sm mb-8">
                         Post Likes
                       </label>
-                      <input
-                        type="id"
-                        className="form-control radius-8"
-                        id="name"
-                        value={selectedMember.like_count}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:heart" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="name"
+                          value={selectedFeed.like_count}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-12 mb-20">
-                      <label
-                        htmlFor="comments"
-                        className="form-label fw-semibold text-primary-light text-sm mb-8"
-                      >
+                      <label htmlFor="comments" className="form-label fw-semibold text-primary-light text-sm mb-8">
                         Comments
                       </label>
-                      <div className="comments-section">
-                        {selectedMember.comments && selectedMember.comments.length > 0 ? (
-                          renderComments(selectedMember.comments)
-                        ) : (
-                          <p>No comments available.</p>
-                        )}
+                      <div className="icon-field">
+                       
+                        <div className="comments-section">
+                          {selectedFeed.comments && selectedFeed.comments.length > 0 ? (
+                            selectedFeed.comments.map((comment) => (
+                              <div key={comment.id} className="comment mb-2">
+                                <div className="comment-content">
+                                  <strong>{comment.user.name}:</strong> {comment.comment}
+                                  {comment.replies && comment.replies.length > 0 && (
+                                    <div className="replies ms-4 mt-2">
+                                      {comment.replies.map((reply) => (
+                                        <div key={reply.id} className="reply mb-1">
+                                          <div className="reply-content">
+                                            <strong>Reply:</strong> {reply.comment}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <p>No comments available.</p>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="d-flex align-items-center justify-content-center gap-3 mt-24">
@@ -418,6 +436,7 @@ const FeedData = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

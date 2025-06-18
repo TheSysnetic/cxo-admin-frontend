@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ApiService from "@/app/api-services/apiServices";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MemberData = () => {
   const [data, setData] = useState([]);
@@ -15,32 +18,55 @@ const MemberData = () => {
   const [selectedMember, setSelectedMember] = useState(null);
 
   useEffect(() => {
-    // Fetch data from JSON file
-    fetch("/member.json") // Ensure this path is correct
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+    // Fetch data from API using axios
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No authentication token found");
+          return;
         }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => {
+
+        const response = await ApiService.get("users");
+        setData(response.data.users);
+      } catch (error) {
         console.error("Error loading data:", error);
-      });
+      }
+    };
+    fetchData();
   }, []);
+  const handleDelete = async (id) => {
+    try {
+      const response = await ApiService.delete(`users/${id}`);
+      if (response.status === 200) {
+        // Update the state by filtering out the deleted member
+        setData((prevData) => prevData.filter((member) => member.id !== id));
+        toast.success("Member deleted successfully!");
+      } else {
+        toast.error("Failed to delete member");
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+      toast.error("Error deleting member");
+    }
+  };
 
   // Sorting function
-  const sortedData = [...data].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
-    }
-    return 0;
-  });
+  const sortedData = Array.isArray(data)
+    ? [...data].sort((a, b) => {
+        if (!a || !b) return 0;
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+
+        if (aValue < bValue) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      })
+    : [];
 
   // Filter data based on search term
   const filteredData = sortedData.filter(
@@ -49,7 +75,7 @@ const MemberData = () => {
         item.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (item.email &&
         item.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (item.id && item.id.includes(searchTerm))
+      (item.id && item.id.toString().includes(searchTerm))
   );
 
   // Calculate pagination
@@ -70,7 +96,7 @@ const MemberData = () => {
   return (
     <div className="card basic-data-table">
       <div className="card-header">
-        <h5 className="card-title mb-0">Default Data Tables</h5>
+        <h5 className="card-title mb-0">Member Data Table</h5>
       </div>
       <div className="card-header">
         <div className="row mt-20">
@@ -94,7 +120,7 @@ const MemberData = () => {
             <div className="row">
               <div className="col-sm-6">
                 <Link
-                href={'/members/create'}
+                  href={"/members/create"}
                   type="button"
                   className="btn btn-primary-600 radius-8 px-20 py-11 d-flex align-items-center gap-2 float-end"
                 >
@@ -126,6 +152,7 @@ const MemberData = () => {
               <th scope="col">Name</th>
               <th scope="col">Designation</th>
               <th scope="col">Email</th>
+              <th scope="col">Contact</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -143,20 +170,21 @@ const MemberData = () => {
                     {item.name}
                   </Link>
                 </td>
-                <td>{item.title}</td>
+                <td>{item.designation}</td>
                 <td>{item.email}</td>
+                <td>{item.contact_number ? item.contact_number : "-"}</td>
                 <td>
                   <Link
                     href="#"
                     className="w-32-px h-32-px me-8 bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center"
-                    data-bs-toggle='modal'
-                    data-bs-target='#viewAllMember'
+                    data-bs-toggle="modal"
+                    data-bs-target="#viewAllMember"
                     onClick={() => setSelectedMember(item)}
                   >
                     <Icon icon="iconamoon:eye-light" />
                   </Link>
                   <Link
-                    href={`/members/edit?id=${item.id}&name=${encodeURIComponent(item.name)}&designation=${encodeURIComponent(item.title)}&email=${encodeURIComponent(item.email)}`}
+                    href={`/members/edit?id=${item.id}`}
                     className="w-32-px h-32-px me-8 bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center"
                   >
                     <Icon icon="lucide:edit" />
@@ -164,6 +192,7 @@ const MemberData = () => {
                   <Link
                     href="#"
                     className="w-32-px h-32-px me-8 bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center"
+                    onClick={() => handleDelete(item.id)}
                   >
                     <Icon icon="mingcute:delete-2-line" />
                   </Link>
@@ -244,91 +273,409 @@ const MemberData = () => {
 
       {/* Modal */}
       <div
-        className='modal fade'
-        id='viewAllMember'
+        className="modal fade"
+        id="viewAllMember"
         tabIndex={-1}
-        aria-labelledby='exampleModalLabel'
-        aria-hidden='true'
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
       >
-        <div className='modal-dialog modal-lg modal-dialog-centered'>
-          <div className='modal-content radius-16 bg-base'>
-            <div className='modal-header py-16 px-24 border border-top-0 border-start-0 border-end-0'>
-              <h1 className='modal-title fs-5'>
-                Member Details
-              </h1>
+        <div className="modal-dialog modal-lg modal-dialog-centered">
+          <div className="modal-content radius-16 bg-base">
+            <div className="modal-header py-16 px-24 border border-top-0 border-start-0 border-end-0">
+              <h1 className="modal-title fs-5">Member Details</h1>
               <button
-                type='button'
-                className='btn-close'
-                data-bs-dismiss='modal'
-                aria-label='Close'
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
               />
             </div>
-            <div className='modal-body p-24'>
+            <div className="modal-body p-24">
               {selectedMember && (
-                <form action='#'>
-                  <div className='row'>
-                    <div className='col-6 mb-20'>
+                <form action="#">
+                  <div className="row">
+                    <div className="col-6 mb-20">
                       <label
-                        htmlFor='name'
-                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                        htmlFor="name"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
                       >
                         Name
                       </label>
-                      <input
-                        type='text'
-                        className='form-control radius-8'
-                        id='name'
-                        value={selectedMember.name}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:account" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="name"
+                          value={
+                            selectedMember.name ? selectedMember.name : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
-                    <div className='col-6 mb-20'>
+                    <div className="col-6 mb-20">
                       <label
-                        htmlFor='designation'
-                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                        htmlFor="designation"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
                       >
                         Designation
                       </label>
-                      <input
-                        type='text'
-                        className='form-control radius-8'
-                        id='name'
-                        value={selectedMember.title}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:briefcase" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="designation"
+                          value={
+                            selectedMember.designation
+                              ? selectedMember.designation
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
-                    <div className='col-6 mb-20'>
+                    <div className="col-6 mb-20">
                       <label
-                        htmlFor='email'
-                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                        htmlFor="email"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
                       >
                         Email
                       </label>
-                      <input
-                        type='text'
-                        className='form-control radius-8'
-                        id='name'
-                        value={selectedMember.email}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:email" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="email"
+                          value={
+                            selectedMember.email ? selectedMember.email : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
-                    <div className='col-6 mb-20'>
+                    <div className="col-6 mb-20">
                       <label
-                        htmlFor='image'
-                        className='form-label fw-semibold text-primary-light text-sm mb-8'
+                        htmlFor="contact"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
                       >
-                        Image
+                        Contact
                       </label>
-                      <br/>
-                      <img src="/assets/images/avatar/avatar.png" alt=""  className="w-80-px h-80-px rounded-circle object-fit-cover"/>
-                      
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:phone" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="contact"
+                          value={
+                            selectedMember.contact_number
+                              ? selectedMember.contact_number
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
                     </div>
-                    <div className='d-flex align-items-center justify-content-center gap-3 mt-24'>
-                      <button
-                        className='btn btn-primary border border-primary-600 text-md px-50 py-12 radius-8'
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="orgName"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
                       >
-                        Close
-                      </button>
+                        Organization Name
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:office-building" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="orgName"
+                          value={
+                            selectedMember.organization_name
+                              ? selectedMember.organization_name
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="orgStatus"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Organization Status
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:chart-line" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="orgStatus"
+                          value={
+                            selectedMember.organization_status
+                              ? selectedMember.organization_status
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="employees"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Number of Employees
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:account-group" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="employees"
+                          value={
+                            selectedMember.number_of_employees
+                              ? selectedMember.number_of_employees
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="gender"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Gender
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:gender-male-female" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="gender"
+                          value={
+                            selectedMember.gender ? selectedMember.gender : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="country"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Country
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:map-marker" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="country"
+                          value={
+                            selectedMember.country
+                              ? selectedMember.country
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="city"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        City
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:city" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="city"
+                          value={
+                            selectedMember.city ? selectedMember.city : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="qualification"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Qualification
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:school" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="qualification"
+                          value={
+                            selectedMember.qualification
+                              ? selectedMember.qualification
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="expertAreas"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Expert Areas
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:lightbulb" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="expertAreas"
+                          value={
+                            selectedMember.expert_areas
+                              ? selectedMember.expert_areas
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="mailingAddress"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Mailing Address
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:map-marker-outline" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="mailingAddress"
+                          value={
+                            selectedMember.mailing_address
+                              ? selectedMember.mailing_address
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="expectationForum"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Expectation Forum
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:forum" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="expectationForum"
+                          value={
+                            selectedMember.expectation_from_forum
+                              ? selectedMember.expectation_from_forum
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-6 mb-20">
+                      <label
+                        htmlFor="interestAreas"
+                        className="form-label fw-semibold text-primary-light text-sm mb-8"
+                      >
+                        Areas of interest
+                      </label>
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:star" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="interestAreas"
+                          value={
+                            selectedMember.interest_areas
+                              ? selectedMember.interest_areas
+                              : "-"
+                          }
+                          readOnly
+                        />
+                      </div>
+
+                      <div className="col-6 mb-20">
+                        <label
+                          htmlFor="image"
+                          className="form-label fw-semibold text-primary-light text-sm mb-8"
+                        >
+                          Image
+                        </label>
+                        <br />
+                        {selectedMember.image == null ? (
+                          <img
+                            src="/assets/images/avatar/avatar.png"
+                            alt="Default avatar"
+                            className="w-80-px h-80-px rounded-circle object-fit-cover"
+                          />
+                        ) : (
+                          <img
+                            src={
+                              process.env.NEXT_PUBLIC_API_BASE_URL +
+                              selectedMember.image
+                            }
+                            alt="Member avatar"
+                            className="w-80-px h-80-px rounded-circle object-fit-cover"
+                          />
+                        )}
+                      </div>
+                      <div className="d-flex align-items-center justify-content-center gap-3 mt-24">
+                        <button className="btn btn-primary border border-primary-600 text-md px-50 py-12 radius-8">
+                          Close
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -337,6 +684,7 @@ const MemberData = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

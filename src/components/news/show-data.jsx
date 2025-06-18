@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ApiService from "@/app/api-services/apiServices";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewsData = () => {
   const [data, setData] = useState([]);
@@ -16,31 +19,39 @@ const NewsData = () => {
 
   useEffect(() => {
     // Fetch data from JSON file
-    fetch("/news.json") // Changed from /member.json to /news.json
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No authentication token found");
+          return;
         }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => {
+
+        const response = await ApiService.get("news");
+        setData(response.data.data);
+      } catch (error) {
         console.error("Error loading data:", error);
-      });
+      }
+    };
+    fetchData();
   }, []);
 
   // Sorting function
-  const sortedData = [...data].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
-    }
-    return 0;
-  });
+  const sortedData = Array.isArray(data) 
+    ? [...data].sort((a, b) => {
+        if (!a || !b) return 0;
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+
+        if (aValue < bValue) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      })
+    : [];
 
   // Filter data based on search term
   const filteredData = sortedData.filter(
@@ -63,12 +74,62 @@ const NewsData = () => {
   const currentData = filteredData.slice(startIndex, endIndex);
   const pageCount = Math.ceil(filteredData.length / rowsPerPage);
 
-  const handleToggleApproval = (id) => {
-    setData((prevData) =>
-      prevData.map((item) =>
-        item.id === id ? { ...item, approved: !item.approved } : item
-      )
-    );
+    // Function to handle approval toggle
+    const handleToggleApproval = async (id, currentStatus) => {
+      if (currentStatus) {
+        toast.warning("Cannot revert approved status", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return;
+      }
+  
+      try {
+        const response = await ApiService.put(`news/${id}/status`, {
+          active: true
+        });
+        if (response.data.success) {
+          setData((prevData) =>
+            prevData.map((item) =>
+              item.id === id ? { ...item, active: true } : item
+            )
+          );
+          toast.success("News post approved successfully", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      } catch (error) {
+        console.error("Error updating job post status:", error);
+        toast.error("Error updating job post status", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    };
+  const handleDelete = async (id) => {
+    try {
+      const response = await ApiService.delete(`news/${id}`);
+      if (response.status === 200) {
+        // Update the state by filtering out the deleted news
+        setData((prevData) => prevData.filter((news) => news.id !== id));
+        toast.success("News deleted successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      } else {
+        toast.error("Failed to delete news", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting news:", error);
+      toast.error("Error deleting news", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   };
 
   // Handle sorting
@@ -153,16 +214,20 @@ const NewsData = () => {
                 </td>
                 <td>{item.description}</td>
                 <td>
-                  <div className="form-switch switch-success d-flex align-items-center gap-3">
+                <div className="form-switch switch-success d-flex align-items-center gap-3">
                     <input
                       className="form-check-input"
                       type="checkbox"
                       role="switch"
                       id={`activeSwitch-${item.id}`}
-                      defaultChecked={item.active}
-                      onChange={() => handleToggleApproval(item.id)}
+                      checked={item.active}
+                      disabled={item.active}
+                      onChange={() => handleToggleApproval(item.id, item.active)}
                     />
-                    <label className="form-check-label line-height-1 fw-medium text-secondary-light" htmlFor={`activeSwitch-${item.id}`}>
+                    <label
+                      className="form-check-label line-height-1 fw-medium text-secondary-light"
+                      htmlFor={`activeSwitch-${item.id}`}
+                    >
                       {item.active ? "Active" : "Not Active"}
                     </label>
                   </div>
@@ -178,7 +243,7 @@ const NewsData = () => {
                     <Icon icon="iconamoon:eye-light" />
                   </Link>
                   <Link
-                    href={`/news/edit?id=${item.id}&title=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}`}
+                    href={`/news/edit?id=${item.id}`}
                     className="w-32-px h-32-px me-8 bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center"
                   >
                     <Icon icon="lucide:edit" />
@@ -186,6 +251,7 @@ const NewsData = () => {
                   <Link
                     href="#"
                     className="w-32-px h-32-px me-8 bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center"
+                    onClick={() => handleDelete(item.id)}
                   >
                     <Icon icon="mingcute:delete-2-line" />
                   </Link>
@@ -296,13 +362,18 @@ const NewsData = () => {
                       >
                         Title
                       </label>
-                      <textarea
-                        type='text'
-                        className='form-control radius-8'
-                        id='name'
-                        value={selectedMember.title}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:format-title" />
+                        </span>
+                        <textarea
+                          type='text'
+                          className='form-control radius-8'
+                          id='name'
+                          value={selectedMember.title}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className='col-6 mb-20'>
                       <label
@@ -311,13 +382,18 @@ const NewsData = () => {
                       >
                         Description
                       </label>
-                      <textarea
-                        type='text'
-                        className='form-control radius-8'
-                        id='name'
-                        value={selectedMember.description}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:text-box" />
+                        </span>
+                        <textarea
+                          type='text'
+                          className='form-control radius-8'
+                          id='name'
+                          value={selectedMember.description}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className='col-6 mb-20'>
                       <label
@@ -326,13 +402,18 @@ const NewsData = () => {
                       >
                         Active
                       </label>
-                      <input
-                        type='text'
-                        className='form-control radius-8'
-                        id='name'
-                        value={selectedMember.active ? "Active" : "Not Active"}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon={selectedMember.active ? "mdi:check-circle" : "mdi:close-circle"} />
+                        </span>
+                        <input
+                          type='text'
+                          className='form-control radius-8'
+                          id='name'
+                          value={selectedMember.active ? "Active" : "Not Active"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className='col-6 mb-20'>
                       <label
@@ -341,9 +422,9 @@ const NewsData = () => {
                       >
                         Image
                       </label>
-                      <br/>
-                      <img src="/assets/images/avatar/avatar.png" alt=""  className="w-80-px h-80-px object-fit-cover"/>
-                      
+                      <div className="icon-field">
+                        <img src="/assets/images/avatar/avatar.png" alt="" className="w-80-px h-80-px object-fit-cover"/>
+                      </div>
                     </div>
                     <div className='d-flex align-items-center justify-content-center gap-3 mt-24'>
                       <button
@@ -359,6 +440,7 @@ const NewsData = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -11,8 +11,6 @@ const Page = () => {
   const searchParams = useSearchParams();
 
   const id = searchParams.get('id');
-  const title = searchParams.get('title');
-  const description = searchParams.get('description');
 
   return (
     <>
@@ -21,7 +19,7 @@ const Page = () => {
         {/* Breadcrumb */}
         <Breadcrumb title='Edit News' page='Edit News' />
 
-        <EditNews id={id} title={title} description={description} />   
+        <EditNews id={id} />   
       </MasterLayout> 
     </>
   );

@@ -1,7 +1,41 @@
+"use client"
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import ApiService from "@/app/api-services/apiServices";
 
 const SignInLayer = () => {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await ApiService.post(
+        "login",
+        formData
+      );
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed");
+    }
+  };
+
   return (
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
@@ -20,15 +54,20 @@ const SignInLayer = () => {
               Welcome back! please enter your detail
             </p>
           </div>
-          <form action='#'>
+          {error && <div className="alert alert-danger">{error}</div>}
+          <form onSubmit={handleSubmit}>
             <div className='icon-field mb-16'>
               <span className='icon top-50 translate-middle-y'>
                 <Icon icon='mage:email' />
               </span>
               <input
                 type='email'
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 className='form-control h-56-px bg-neutral-50 radius-12'
                 placeholder='Email'
+                required
               />
             </div>
             <div className='position-relative mb-20'>
@@ -38,9 +77,13 @@ const SignInLayer = () => {
                 </span>
                 <input
                   type='password'
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className='form-control h-56-px bg-neutral-50 radius-12'
                   id='your-password'
                   placeholder='Password'
+                  required
                 />
               </div>
               <span
@@ -66,42 +109,15 @@ const SignInLayer = () => {
                 </Link>
               </div>
             </div>
-            <Link
-              href={'/dashboard'}
+            <button
               type='submit'
               className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
             >
-              {" "}
               Sign In
-            </Link>
-            {/* <div className='mt-32 center-border-horizontal text-center'>
-              <span className='bg-base z-1 px-4'>Or sign in with</span>
-            </div> */}
-            {/* <div className='mt-32 d-flex align-items-center gap-3'>
-              <button
-                type='button'
-                className='fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50'
-              >
-                <Icon
-                  icon='ic:baseline-facebook'
-                  className='text-primary-600 text-xl line-height-1'
-                />
-                Google
-              </button>
-              <button
-                type='button'
-                className='fw-semibold text-primary-light py-16 px-24 w-50 border radius-12 text-md d-flex align-items-center justify-content-center gap-12 line-height-1 bg-hover-primary-50'
-              >
-                <Icon
-                  icon='logos:google-icon'
-                  className='text-primary-600 text-xl line-height-1'
-                />
-                Google
-              </button>
-            </div> */}
+            </button>
             <div className='mt-32 text-center text-sm'>
               <p className='mb-0'>
-                Don’t have an account?{" "}
+                Don't have an account?{" "}
                 <Link href='/sign-up' className='text-primary-600 fw-semibold'>
                   Sign Up
                 </Link>

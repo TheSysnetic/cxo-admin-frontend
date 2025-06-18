@@ -11,9 +11,7 @@ const Page = () => {
   const searchParams = useSearchParams();
 
   const id = searchParams.get('id');
-  const name = searchParams.get('name');
-  const designation = searchParams.get('designation');
-  const email = searchParams.get('email');
+  
 
   return (
     <>
@@ -22,7 +20,7 @@ const Page = () => {
         {/* Breadcrumb */}
         <Breadcrumb title='Edit Member' page='Edit member' />
 
-        <EditMember id={id} name={name} designation={designation} email={email} />   
+        <EditMember id={id} />   
       </MasterLayout> 
     </>
   );

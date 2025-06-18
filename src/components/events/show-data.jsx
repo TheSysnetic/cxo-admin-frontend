@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import ApiService from "@/app/api-services/apiServices";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EventsData = () => {
   const [data, setData] = useState([]);
@@ -17,24 +20,24 @@ const EventsData = () => {
 
   useEffect(() => {
     // Fetch data from JSON file
-    fetch("/events.json")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setFeeds(data);
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        const response = await ApiService.get("events"); // Adjust the endpoint as necessary
+        setData(response.data.data);
+        console.log(response.data.data);
+      } catch (error) {
         console.error("Error loading data:", error);
-      });
+        toast.error("Error loading job posts", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    };
+    fetchData();
   }, []);
 
   // Sorting function
-  const sortedData = [...feeds].sort((a, b) => {
+  const sortedData = [...data].sort((a, b) => {
     if (a.id < b.id) {
       return sortConfig.direction === "ascending" ? -1 : 1;
     }
@@ -71,12 +74,37 @@ const EventsData = () => {
   };
 
   // Function to handle approval toggle
-  const handleToggleApproval = (id) => {
-    setFeeds((prevFeeds) =>
-      prevFeeds.map((feed) =>
-        feed.id === id ? { ...feed, approved: !feed.approved } : feed
-      )
-    );
+  const handleToggleApproval = async (id, currentStatus) => {
+    if (currentStatus) {
+      toast.warning("Cannot revert approved status", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    try {
+      const response = await ApiService.post(`events/${id}/status`, {
+        approved: true
+      });
+      if (response.data.success) {
+        setData((prevData) =>
+          prevData.map((item) =>
+            item.id === id ? { ...item, approved: true } : item
+          )
+        );
+        toast.success("Event approved successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Error updating event status:", error);
+      toast.error("Error updating event status", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   };
 
   return (
@@ -146,10 +174,14 @@ const EventsData = () => {
                       type="checkbox"
                       role="switch"
                       id={`activeSwitch-${item.id}`}
-                      defaultChecked={item.approved}
-                      onChange={() => handleToggleApproval(item.id)}
+                      checked={item.approved}
+                      disabled={item.approved}
+                      onChange={() => handleToggleApproval(item.id, item.approved)}
                     />
-                    <label className="form-check-label line-height-1 fw-medium text-secondary-light" htmlFor={`activeSwitch-${item.id}`}>
+                    <label
+                      className="form-check-label line-height-1 fw-medium text-secondary-light"
+                      htmlFor={`activeSwitch-${item.id}`}
+                    >
                       {item.approved ? "Approved" : "Pending"}
                     </label>
                   </div>
@@ -164,12 +196,12 @@ const EventsData = () => {
                   >
                     <Icon icon="iconamoon:eye-light" />
                   </Link>
-                  <Link
+                  {/* <Link
                     href="#"
                     className="w-32-px h-32-px me-8 bg-danger-focus text-danger-main rounded-circle d-inline-flex align-items-center justify-content-center"
                   >
                     <Icon icon="mingcute:delete-2-line" />
-                  </Link>
+                  </Link> */}
                 </td>
               </tr>
             ))}
@@ -275,13 +307,18 @@ const EventsData = () => {
                       >
                         ID
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="id"
-                        value={selectedMember.id}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:identifier" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="id"
+                          value={selectedMember.id}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -290,13 +327,18 @@ const EventsData = () => {
                       >
                         Posted User
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="postedUser"
-                        value={selectedMember.user.name}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:account" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="postedUser"
+                          value={selectedMember.user.name ? selectedMember.user.name : "-"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -305,13 +347,18 @@ const EventsData = () => {
                       >
                         Event Status
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="postStatus"
-                        value={selectedMember.approved ? "Approved" : "Pending"}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon={selectedMember.approved ? "mdi:check-circle" : "mdi:clock-outline"} />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="postStatus"
+                          value={selectedMember.approved ? "Approved" : "Pending"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -320,13 +367,18 @@ const EventsData = () => {
                       >
                         Link
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="link"
-                        value={selectedMember.link}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:link" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="link"
+                          value={selectedMember.link ? selectedMember.link : "-"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -335,12 +387,17 @@ const EventsData = () => {
                       >
                         Events Title
                       </label>
-                      <textarea
-                        className="form-control radius-8"
-                        id="description"
-                        value={selectedMember.title}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:format-title" />
+                        </span>
+                        <textarea
+                          className="form-control radius-8"
+                          id="description"
+                          value={selectedMember.title ? selectedMember.title : "-"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -349,12 +406,17 @@ const EventsData = () => {
                       >
                         Events Description
                       </label>
-                      <textarea
-                        className="form-control radius-8"
-                        id="description"
-                        value={selectedMember.description}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:text-box" />
+                        </span>
+                        <textarea
+                          className="form-control radius-8"
+                          id="description"
+                          value={selectedMember.description ? selectedMember.description : "-"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     
                     <div className="col-6 mb-20">
@@ -364,13 +426,18 @@ const EventsData = () => {
                       >
                         From
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="dueDate"
-                        value={selectedMember.date_from}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:calendar-start" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="dueDate"
+                          value={selectedMember.date_from ? selectedMember.date_from : "-"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -379,13 +446,18 @@ const EventsData = () => {
                       >
                         To
                       </label>
-                      <input
-                        type="text"
-                        className="form-control radius-8"
-                        id="dueDate"
-                        value={selectedMember.date_to}
-                        readOnly
-                      />
+                      <div className="icon-field">
+                        <span className="icon">
+                          <Icon icon="mdi:calendar-end" />
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control radius-8"
+                          id="dueDate"
+                          value={selectedMember.date_to ? selectedMember.date_to : "-"}
+                          readOnly
+                        />
+                      </div>
                     </div>
                     <div className="col-6 mb-20">
                       <label
@@ -394,12 +466,13 @@ const EventsData = () => {
                       >
                         Image
                       </label>
-                      <br />
-                      <img
-                        src="/assets/images/logo.png"
-                        alt="Post Thumbnail"
-                        className="w-120-px object-fit-cover"
-                      />
+                      <div className="icon-field">
+                        <img
+                          src="/assets/images/logo.png"
+                          alt="Post Thumbnail"
+                          className="w-120-px object-fit-cover"
+                        />
+                      </div>
                     </div>
                     <div className="d-flex align-items-center justify-content-center gap-3 mt-24">
                       <button className="btn btn-primary border border-primary-600 text-md px-50 py-12 radius-8">
@@ -413,6 +486,7 @@ const EventsData = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
